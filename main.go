@@ -83,6 +83,9 @@ func recursion_map(data map[string]interface{}, key string, level, index int) j_
 
 				i++
 			}
+		case map[string]interface{}:
+			o := recursion_map(v.(map[string]interface{}), k, level+1, 0)
+			j.jDataMap[k] = append(j.jDataMap[k], o)
 		default:
 			j._map[k] = v
 		}
