@@ -97,9 +97,9 @@ func recursion_print(j j_data) {
 	}
 
 	if j.level != 0 {
-		fmt.Printf("%s %d: \n", j._key, j.index)
+		fmt.Printf("%s:: index %d: level %d:\n", j._key, j.index, j.level)
 	} else {
-		fmt.Printf("root %d: \n", j.index)
+		fmt.Printf("root:: index %d: level %d:\n", j.index, j.level)
 	}
 
 	j.level += 1
