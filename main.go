@@ -189,32 +189,20 @@ type Mermaid struct {
 }
 
 func main() {
-	var filePath, port string
-	flag.StringVar(&filePath, "file", "", "file path")
+	var port string
 	flag.StringVar(&port, "port", "8888", "port")
 	flag.Parse()
 
-	var _json []byte
-	var err error
-	if filePath != "" {
-		_json, err = os.ReadFile(filePath)
-		if err != nil {
-			fmt.Printf("Error reading file: %s", err)
-			return
-		}
-	} else {
-		_json = []byte(json_data)
-	}
-
-	var l1 map[string]interface{}
-	err = json.Unmarshal(_json, &l1)
-	if err != nil {
-		fmt.Printf("Error L1: %s", err)
-		return
-	}
-
 	tmp := template.Must(template.ParseFiles("index.html"))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		file := r.URL.Query().Get("file")
+		l1, err := newFunction(file)
+		if err != nil {
+			w.Header().Set("Content-Type", "application/json")
+			w.Write([]byte(fmt.Sprintf("{\"error\": \"%s\"}", err)))
+			return
+		}
+
 		j := recursion_map(l1, "", 0, 0)
 		m := recursion_mermaid(j, "")
 		recursion_print(j)
@@ -223,4 +211,25 @@ func main() {
 	})
 	browser.OpenURL("http://localhost:" + port)
 	http.ListenAndServe(":"+port, nil)
+}
+
+func newFunction(filePath string) (map[string]interface{}, error) {
+	var _json []byte
+	var err error
+	if filePath != "" {
+		_json, err = os.ReadFile(filePath)
+		if err != nil {
+			return nil, fmt.Errorf("error reading file: %s", err)
+		}
+	} else {
+		_json = []byte(json_data)
+	}
+
+	var l1 map[string]interface{}
+	err = json.Unmarshal(_json, &l1)
+	if err != nil {
+		return nil, fmt.Errorf("error L1: %s", err)
+	}
+
+	return l1, nil
 }
