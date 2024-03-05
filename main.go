@@ -4,7 +4,11 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"html/template"
+	"net/http"
 	"os"
+
+	"github.com/pkg/browser"
 )
 
 var json_data = `
@@ -132,6 +136,10 @@ func recursion_print(j j_data) {
 	}
 }
 
+type Mermaid struct {
+	MMD string
+}
+
 func main() {
 	var filePath, port string
 	flag.StringVar(&filePath, "file", "", "file path")
@@ -159,4 +167,11 @@ func main() {
 
 	j := recursion_map(l1, "", 0, 0)
 	recursion_print(j)
+
+	tmp := template.Must(template.ParseFiles("index.html"))
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		tmp.Execute(w, Mermaid{MMD: "graph TD\nA[Christmas] -->|Get money| B(Go shopping)\nB --> C{Let me think}\nC -->|One| D[Laptop]\nC -->|Two| E[iPhone]\nC -->|Three| F[fa:fa-car Car]\n"})
+	})
+	browser.OpenURL("http://localhost:" + port)
+	http.ListenAndServe(":"+port, nil)
 }
