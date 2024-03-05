@@ -7,6 +7,8 @@ import (
 	"html/template"
 	"net/http"
 	"os"
+	"regexp"
+	"strings"
 
 	"github.com/pkg/browser"
 )
@@ -136,6 +138,52 @@ func recursion_print(j j_data) {
 	}
 }
 
+func removeSpecialChars(s string) string {
+	chars := []string{"(", ")", "@"}
+	r := strings.Join(chars, "")
+	re := regexp.MustCompile("[" + r + "]+")
+	return re.ReplaceAllString(s, "")
+}
+
+func recursion_mermaid(j j_data, perviousKey string) string {
+	var mmd string
+	m_key := fmt.Sprintf("%d%d%s", j.level, j.index, j._key)
+	if j.level == 0 {
+		mmd += "graph LR\n"
+	} else if perviousKey != "" {
+		mmd += fmt.Sprintf("%s --> %s\n", perviousKey, m_key)
+	}
+
+	mmd += fmt.Sprintf("%s[\n<p style='text-align: left;'>", m_key)
+
+	for k, v := range j._map {
+		mmd += fmt.Sprintf("%s: %v\n", k, removeSpecialChars(fmt.Sprintf("%v", v)))
+	}
+
+	mmd += "</>]\n"
+
+	for k, v := range j.arraysMap {
+		mmd += fmt.Sprintf("%s --> %s%d%d[%s]\n", m_key, k, j.level, j.index, k)
+		for n, val := range v {
+			mmd += fmt.Sprintf("%s%d%d --> %s%d%d%d[%v]\n", k, j.level, j.index, k, j.level, j.index, n, removeSpecialChars(fmt.Sprintf("%v", val)))
+		}
+	}
+
+	for _, v := range j.jDataMap {
+		for i, val := range v {
+			mm_key := fmt.Sprintf("%d%d%s", j.level, j.index, val._key)
+
+			if i == 0 {
+				mmd += fmt.Sprintf("%s --> %s[%s]\n", m_key, mm_key, val._key)
+			}
+
+			mmd += recursion_mermaid(val, mm_key)
+		}
+	}
+
+	return mmd
+}
+
 type Mermaid struct {
 	MMD string
 }
@@ -165,12 +213,13 @@ func main() {
 		return
 	}
 
-	j := recursion_map(l1, "", 0, 0)
-	recursion_print(j)
-
 	tmp := template.Must(template.ParseFiles("index.html"))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		tmp.Execute(w, Mermaid{MMD: "graph TD\nA[Christmas] -->|Get money| B(Go shopping)\nB --> C{Let me think}\nC -->|One| D[Laptop]\nC -->|Two| E[iPhone]\nC -->|Three| F[fa:fa-car Car]\n"})
+		j := recursion_map(l1, "", 0, 0)
+		m := recursion_mermaid(j, "")
+		recursion_print(j)
+		fmt.Print(m)
+		tmp.Execute(w, Mermaid{MMD: m})
 	})
 	browser.OpenURL("http://localhost:" + port)
 	http.ListenAndServe(":"+port, nil)
