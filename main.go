@@ -2,7 +2,9 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
+	"os"
 )
 
 var json_data = `
@@ -131,8 +133,25 @@ func recursion_print(j j_data) {
 }
 
 func main() {
+	var filePath, port string
+	flag.StringVar(&filePath, "file", "", "file path")
+	flag.StringVar(&port, "port", "8888", "port")
+	flag.Parse()
+
+	var _json []byte
+	var err error
+	if filePath != "" {
+		_json, err = os.ReadFile(filePath)
+		if err != nil {
+			fmt.Printf("Error reading file: %s", err)
+			return
+		}
+	} else {
+		_json = []byte(json_data)
+	}
+
 	var l1 map[string]interface{}
-	err := json.Unmarshal([]byte(json_data), &l1)
+	err = json.Unmarshal(_json, &l1)
 	if err != nil {
 		fmt.Printf("Error L1: %s", err)
 		return
