@@ -221,8 +221,7 @@ func main() {
 			fmt.Println(result.Errors)
 			return
 		}
-		tmp := template.Must(template.ParseFiles("react.html"))
-		tmp.Execute(w, nil)
+		http.ServeFile(w, r, "react.html")
 	})
 	http.HandleFunc("/dist/bundle.js", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "my-react-app/dist/bundle.js")
