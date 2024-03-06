@@ -9,6 +9,7 @@ import (
 	"os"
 	"regexp"
 	"strings"
+	txt "text/template"
 
 	"github.com/evanw/esbuild/pkg/api"
 	"github.com/pkg/browser"
@@ -58,6 +59,162 @@ var json_data = `
   ]
 }
 `
+
+var initialNodes = `[
+  {
+    id: "1",
+    position: { x: 50, y: 500 },
+    data: {
+      label: (
+        <div>
+          <span style={{ color: "red" }}>squadName:</span>
+          <span style={{ color: "blue" }}> Super hero squad</span>
+          <br />
+          <span style={{ color: "red" }}>homeTown:</span>
+          <span style={{ color: "blue" }}> Metro City</span>
+          <br />
+          <span style={{ color: "red" }}>formed:</span>
+          <span style={{ color: "blue" }}> 2016</span>
+          <br />
+          <span style={{ color: "red" }}>secretBase:</span>
+          <span style={{ color: "blue" }}> Super tower</span>
+          <br />
+          <span style={{ color: "red" }}>active:</span>
+          <span style={{ color: "blue" }}> true</span>
+        </div>
+      ),
+    },
+  },
+  { id: "2", position: { x: 200, y: 300 }, data: { label: "powers" } },
+  {
+    id: "3",
+    position: { x: 400, y: 300 },
+    data: { label: "Million tonne punch" },
+  },
+  {
+    id: "4",
+    position: { x: 400, y: 500 },
+    data: { label: "Damage resistance" },
+  },
+  {
+    id: "5",
+    position: { x: 400, y: 700 },
+    data: { label: "Superhuman reflexes" },
+  },
+  { id: "6", position: { x: 600, y: 300 }, data: { label: "members" } },
+  {
+    id: "7",
+    position: { x: 800, y: 300 },
+    data: {
+      label: (
+        <div>
+          <span style={{ color: "red" }}>name:</span>
+          <span style={{ color: "blue" }}> Molecule </span>
+          <br />
+          <span style={{ color: "red" }}>age:</span>
+          <span style={{ color: "blue" }}> 29</span>
+          <br />
+          <span style={{ color: "red" }}>secretIdentity:</span>
+          <span style={{ color: "blue" }}> Dan Jukes</span>
+        </div>
+      ),
+    },
+  },
+  {
+    id: "8",
+    position: { x: 800, y: 500 },
+    data: { label: "Powers" },
+  },
+  {
+    id: "9",
+    position: { x: 800, y: 700 },
+    data: { label: "Radiation blast" },
+  },
+  {
+    id: "10",
+    position: { x: 1000, y: 300 },
+    data: {
+      label: (
+        <div>
+          <span style={{ color: "red" }}>name:</span>
+          <span style={{ color: "blue" }}> Madame Uppercut</span>
+          <br />
+          <span style={{ color: "red" }}>age:</span>
+          <span style={{ color: "blue" }}> 39</span>
+          <br />
+          <span style={{ color: "red" }}>secretIdentity:</span>
+          <span style={{ color: "blue" }}> Jane Wilson</span>
+        </div>
+      ),
+    },
+  },
+  {
+    id: "11",
+    position: { x: 1000, y: 500 },
+    data: {
+      label: (
+        <div>
+          <span style={{ color: "red" }}>name:</span>
+          <span style={{ color: "blue" }}> Eternal Flame</span>
+          <br />
+          <span style={{ color: "red" }}>age:</span>
+          <span style={{ color: "blue" }}> 1000000</span>
+          <br />
+          <span style={{ color: "red" }}>secretIdentity:</span>
+          <span style={{ color: "blue" }}> Unknown</span>
+        </div>
+      ),
+    },
+  },
+  {
+    id: "12",
+    position: { x: 1000, y: 700 },
+    data: { label: "powers" },
+  },
+  {
+    id: "13",
+    position: { x: 1200, y: 300 },
+    data: { label: "Immortality" },
+  },
+  {
+    id: "14",
+    position: { x: 1200, y: 500 },
+    data: { label: "Heat Immunity" },
+  },
+  {
+    id: "15",
+    position: { x: 1200, y: 700 },
+    data: { label: "Inferno" },
+  },
+  {
+    id: "16",
+    position: { x: 1400, y: 300 },
+    data: { label: "Teleportation" },
+  },
+];`
+
+var initialEdges = `[
+  { id: "e1-2", source: "1", target: "2" },
+  { id: "e2-3", source: "2", target: "3" },
+  { id: "e2-4", source: "2", target: "4" },
+  { id: "e2-5", source: "2", target: "5" },
+  { id: "e1-6", source: "1", target: "6" },
+  { id: "e6-7", source: "6", target: "7" },
+  { id: "e6-8", source: "6", target: "8" },
+  { id: "e6-9", source: "6", target: "9" },
+  { id: "e6-10", source: "6", target: "10" },
+  { id: "e6-11", source: "6", target: "11" },
+  { id: "e6-12", source: "6", target: "12" },
+  { id: "e12-13", source: "12", target: "13" },
+  { id: "e12-14", source: "12", target: "14" },
+  { id: "e12-15", source: "12", target: "15" },
+  { id: "e12-16", source: "12", target: "16" },
+];`
+
+type r_data struct {
+	InitialNodes string
+	InitialEdges string
+}
 
 type j_data struct {
 	_key      string
@@ -210,7 +367,17 @@ func main() {
 		fmt.Print(m)
 		tmp.Execute(w, Mermaid{MMD: m})
 	})
+	tmp_r := txt.Must(txt.ParseFiles("my-react-app/src/App.jsx"))
 	http.HandleFunc("/react", func(w http.ResponseWriter, r *http.Request) {
+		f, err := os.Create("my-react-app/src/App.jsx")
+		if err != nil {
+			w.Header().Set("Content-Type", "application/json")
+			w.Write([]byte(fmt.Sprintf("{\"error\": \"%s\"}", err)))
+			return
+		}
+		tmp_r.Execute(f, r_data{InitialNodes: initialNodes, InitialEdges: initialEdges})
+		f.Close()
+
 		result := api.Build(api.BuildOptions{
 			EntryPoints: []string{"my-react-app/src/main.jsx"},
 			Bundle:      true,
