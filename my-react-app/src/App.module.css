@@ -11,3 +11,9 @@
   border-bottom: 1px solid #eee;
   padding: 0 1rem;
 }
+
+.flow {
+  padding: 1rem;
+  width: 100vw; 
+  height: 100vh;
+}
