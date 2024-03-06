@@ -367,7 +367,7 @@ func main() {
 		fmt.Print(m)
 		tmp.Execute(w, Mermaid{MMD: m})
 	})
-	tmp_r := txt.Must(txt.ParseFiles("my-react-app/src/App.jsx"))
+	tmp_r := txt.Must(txt.ParseFiles("my-react-app/src/App.tmp.jsx"))
 	http.HandleFunc("/react", func(w http.ResponseWriter, r *http.Request) {
 		f, err := os.Create("my-react-app/src/App.jsx")
 		if err != nil {
