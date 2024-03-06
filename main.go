@@ -10,6 +10,7 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/evanw/esbuild/pkg/api"
 	"github.com/pkg/browser"
 )
 
@@ -208,6 +209,26 @@ func main() {
 		recursion_print(j)
 		fmt.Print(m)
 		tmp.Execute(w, Mermaid{MMD: m})
+	})
+	http.HandleFunc("/react", func(w http.ResponseWriter, r *http.Request) {
+		result := api.Build(api.BuildOptions{
+			EntryPoints: []string{"my-react-app/src/main.jsx"},
+			Bundle:      true,
+			Outfile:     "my-react-app/dist/bundle.js",
+			Write:       true,
+		})
+		if len(result.Errors) > 0 {
+			fmt.Println(result.Errors)
+			return
+		}
+		tmp := template.Must(template.ParseFiles("react.html"))
+		tmp.Execute(w, nil)
+	})
+	http.HandleFunc("/dist/bundle.js", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "my-react-app/dist/bundle.js")
+	})
+	http.HandleFunc("/dist/bundle.css", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "my-react-app/dist/bundle.css")
 	})
 	browser.OpenURL("http://localhost:" + port)
 	http.ListenAndServe(":"+port, nil)
