@@ -60,6 +60,8 @@ function parseJsonData(json_data, parentKey, levelIndex = 0, elementIndex = 0) {
   const _object = {};
 
   Object.entries(json_data).forEach(([key, value]) => {
+    if (!value) return;
+
     if (Array.isArray(value)) {
       _arrayALL[key] = value;
     } else if (typeof value === "object") {
