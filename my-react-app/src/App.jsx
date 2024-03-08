@@ -92,7 +92,7 @@ function parseJsonData(json_data, parentKey, levelIndex = 0, elementIndex = 0) {
   // create node for parentKey, label = parentKey
   let parentNodeId = null;
   if (parentKey) {
-    parentNodeId = `${parentKey}-${levelIndex}-${elementIndex}-object-parent`;
+    parentNodeId = `${parentKey}--object-parent`;
 
     // check initialNodes already have parentKey node
     let isParentNodeExist = false;
@@ -131,8 +131,8 @@ function parseJsonData(json_data, parentKey, levelIndex = 0, elementIndex = 0) {
       list.forEach((nodeId) => {
         initialEdges.push({
           id: `${nodeId}-${objectNodeId}-edge`,
-          source: nodeId,
-          target: objectNodeId,
+          source: objectNodeId,
+          target: nodeId,
         });
       });
     }
