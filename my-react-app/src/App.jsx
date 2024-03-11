@@ -1,16 +1,26 @@
 import React, { useCallback } from "react";
-import ReactFlow, {
+import {
+  ReactFlow,
   Controls,
   Background,
+  BackgroundVariant,
   useNodesState,
   useEdgesState,
-  addEdge,
 } from "reactflow";
 import ELK from "elkjs/lib/elk.bundled.js";
+import JsonVisNode from "./Custom-Nodes/JsonVisNode";
+import JsonVisEdge from "./Custom Edges/JsonVisEdge";
 
-import styles from "./App.module.css";
+import "./App.css";
 
 import "reactflow/dist/style.css";
+
+const nodeTypes = { jsonVis: JsonVisNode };
+const edgeTypes = {
+  jsonVis: JsonVisEdge,
+};
+
+const defaultEdgeOpt = { type: "jsonVis" };
 
 const json_data = {
   squadName: "Super hero squad",
@@ -275,20 +285,28 @@ export default function App() {
   );
 
   return (
-    <div className={styles.container}>
-      <header className={styles.header}>React Flow - Vite Example</header>
-      <div className={styles.flow}>
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-        >
-          <Controls />
-          <Background variant="dots" gap={12} size={1} />
-        </ReactFlow>
+    <>
+      <div className="app-cont">
+        <div className="react-flow-cont">
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
+            defaultEdgeOptions={defaultEdgeOpt}
+          >
+            <Background
+              gap={30}
+              color={"#373737"}
+              variant={BackgroundVariant.Lines}
+            ></Background>
+            <Controls showInteractive={false}></Controls>
+          </ReactFlow>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

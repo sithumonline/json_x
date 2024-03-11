@@ -60,156 +60,657 @@ var json_data = `
 }
 `
 
-var initialNodes = `[
+var initialNodes = `
+[
   {
-    id: "1",
-    position: { x: 50, y: 500 },
-    data: {
-      label: (
-        <div>
-          <span style={{ color: "red" }}>squadName:</span>
-          <span style={{ color: "blue" }}> Super hero squad</span>
-          <br />
-          <span style={{ color: "red" }}>homeTown:</span>
-          <span style={{ color: "blue" }}> Metro City</span>
-          <br />
-          <span style={{ color: "red" }}>formed:</span>
-          <span style={{ color: "blue" }}> 2016</span>
-          <br />
-          <span style={{ color: "red" }}>secretBase:</span>
-          <span style={{ color: "blue" }}> Super tower</span>
-          <br />
-          <span style={{ color: "red" }}>active:</span>
-          <span style={{ color: "blue" }}> true</span>
-        </div>
-      ),
+    "id": "uokKcnPMRv9nKWd-F-_YY",
+    "data": {
+      "label": {
+        "squadName": "Super hero squad",
+        "homeTown": "Metro City",
+        "formed": 2016,
+        "secretBase": "Super tower",
+        "active": true
+      }
     },
-  },
-  { id: "2", position: { x: 200, y: 300 }, data: { label: "powers" } },
-  {
-    id: "3",
-    position: { x: 400, y: 300 },
-    data: { label: "Million tonne punch" },
-  },
-  {
-    id: "4",
-    position: { x: 400, y: 500 },
-    data: { label: "Damage resistance" },
-  },
-  {
-    id: "5",
-    position: { x: 400, y: 700 },
-    data: { label: "Superhuman reflexes" },
-  },
-  { id: "6", position: { x: 600, y: 300 }, data: { label: "members" } },
-  {
-    id: "7",
-    position: { x: 800, y: 300 },
-    data: {
-      label: (
-        <div>
-          <span style={{ color: "red" }}>name:</span>
-          <span style={{ color: "blue" }}> Molecule </span>
-          <br />
-          <span style={{ color: "red" }}>age:</span>
-          <span style={{ color: "blue" }}> 29</span>
-          <br />
-          <span style={{ color: "red" }}>secretIdentity:</span>
-          <span style={{ color: "blue" }}> Dan Jukes</span>
-        </div>
-      ),
+    "position": {
+      "x": 462,
+      "y": 12
     },
+    "type": "jsonVis",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 511,
+    "x": 462,
+    "y": 12
   },
   {
-    id: "8",
-    position: { x: 800, y: 500 },
-    data: { label: "Powers" },
-  },
-  {
-    id: "9",
-    position: { x: 800, y: 700 },
-    data: { label: "Radiation blast" },
-  },
-  {
-    id: "10",
-    position: { x: 1000, y: 300 },
-    data: {
-      label: (
-        <div>
-          <span style={{ color: "red" }}>name:</span>
-          <span style={{ color: "blue" }}> Madame Uppercut</span>
-          <br />
-          <span style={{ color: "red" }}>age:</span>
-          <span style={{ color: "blue" }}> 39</span>
-          <br />
-          <span style={{ color: "red" }}>secretIdentity:</span>
-          <span style={{ color: "blue" }}> Jane Wilson</span>
-        </div>
-      ),
+    "id": "aXp1nbws2IiRJsjHO5E1C",
+    "data": {
+      "label": "members"
     },
-  },
-  {
-    id: "11",
-    position: { x: 1000, y: 500 },
-    data: {
-      label: (
-        <div>
-          <span style={{ color: "red" }}>name:</span>
-          <span style={{ color: "blue" }}> Eternal Flame</span>
-          <br />
-          <span style={{ color: "red" }}>age:</span>
-          <span style={{ color: "blue" }}> 1000000</span>
-          <br />
-          <span style={{ color: "red" }}>secretIdentity:</span>
-          <span style={{ color: "blue" }}> Unknown</span>
-        </div>
-      ),
+    "type": "jsonVis",
+    "position": {
+      "x": 462,
+      "y": 262
     },
+    "parent": "uokKcnPMRv9nKWd-F-_YY",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 513,
+    "x": 462,
+    "y": 262
   },
   {
-    id: "12",
-    position: { x: 1000, y: 700 },
-    data: { label: "powers" },
+    "id": "L3fzrf0cmkcLFzeCdk5MG",
+    "data": {
+      "label": {
+        "name": "Molecule Man",
+        "age": 29,
+        "secretIdentity": "Dan Jukes"
+      }
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 1943.25,
+      "y": 512
+    },
+    "parent": "aXp1nbws2IiRJsjHO5E1C",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 515,
+    "x": 1943.25,
+    "y": 512
   },
   {
-    id: "13",
-    position: { x: 1200, y: 300 },
-    data: { label: "Immortality" },
+    "id": "MF7EROOWXVAX8E3CqlBda",
+    "data": {
+      "label": "powers"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 1943.25,
+      "y": 762
+    },
+    "parent": "L3fzrf0cmkcLFzeCdk5MG",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 517,
+    "x": 1943.25,
+    "y": 762
   },
   {
-    id: "14",
-    position: { x: 1200, y: 500 },
-    data: { label: "Heat Immunity" },
+    "id": "cyWW5lEqFvWUpzyWC8iYQ",
+    "data": {
+      "label": "Radiation resistance"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 1812,
+      "y": 1012
+    },
+    "parent": "MF7EROOWXVAX8E3CqlBda",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 519,
+    "x": 1812,
+    "y": 1012
   },
   {
-    id: "15",
-    position: { x: 1200, y: 700 },
-    data: { label: "Inferno" },
+    "id": "NR5o-GQJoBLDV577J1D7L",
+    "data": {
+      "label": "Turning tiny"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 2112,
+      "y": 1012
+    },
+    "parent": "MF7EROOWXVAX8E3CqlBda",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 521,
+    "x": 2112,
+    "y": 1012
   },
   {
-    id: "16",
-    position: { x: 1400, y: 300 },
-    data: { label: "Teleportation" },
+    "id": "Ev8wFKpv2Lc-I1-FxoxUD",
+    "data": {
+      "label": "Radiation blast"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 1512,
+      "y": 1012
+    },
+    "parent": "MF7EROOWXVAX8E3CqlBda",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 523,
+    "x": 1512,
+    "y": 1012
   },
-];`
+  {
+    "id": "9kbMx45W4QKeW1DynV-AN",
+    "data": {
+      "label": "lol"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 12,
+      "y": 512
+    },
+    "parent": "aXp1nbws2IiRJsjHO5E1C",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 525,
+    "x": 12,
+    "y": 512
+  },
+  {
+    "id": "Z2K5-GXcYDy9MewoZRf27",
+    "data": {
+      "label": {
+        "name": "Madame Uppercut",
+        "age": 39,
+        "secretIdentity": "Jane Wilson"
+      }
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 312,
+      "y": 512
+    },
+    "parent": "aXp1nbws2IiRJsjHO5E1C",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 527,
+    "x": 312,
+    "y": 512
+  },
+  {
+    "id": "iDXyn5OcnG17jZ1WmDVsq",
+    "data": {
+      "label": {
+        "name": "Eternal Flame",
+        "age": 1000000,
+        "secretIdentity": "Unknown"
+      }
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 612,
+      "y": 512
+    },
+    "parent": "aXp1nbws2IiRJsjHO5E1C",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 529,
+    "x": 612,
+    "y": 512
+  },
+  {
+    "id": "0zyljObQeS9W9vpBrdyeE",
+    "data": {
+      "label": "powers"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 612,
+      "y": 762
+    },
+    "parent": "iDXyn5OcnG17jZ1WmDVsq",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 531,
+    "x": 612,
+    "y": 762
+  },
+  {
+    "id": "O6tpqkcq2EzqY89khlusu",
+    "data": {
+      "label": "Immortality"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 312,
+      "y": 1012
+    },
+    "parent": "0zyljObQeS9W9vpBrdyeE",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 533,
+    "x": 312,
+    "y": 1012
+  },
+  {
+    "id": "AJ_GuX3R5VNkzdktk52q5",
+    "data": {
+      "label": "Heat Immunity"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 912,
+      "y": 1012
+    },
+    "parent": "0zyljObQeS9W9vpBrdyeE",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 535,
+    "x": 912,
+    "y": 1012
+  },
+  {
+    "id": "7uofEQ_p5J5EtvLeqAkej",
+    "data": {
+      "label": "Inferno"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 1212,
+      "y": 1012
+    },
+    "parent": "0zyljObQeS9W9vpBrdyeE",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 537,
+    "x": 1212,
+    "y": 1012
+  },
+  {
+    "id": "5ygEORyDxPRH529qqxLcL",
+    "data": {
+      "label": "Teleportation"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 612,
+      "y": 1012
+    },
+    "parent": "0zyljObQeS9W9vpBrdyeE",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 539,
+    "x": 612,
+    "y": 1012
+  },
+  {
+    "id": "fIv7iBMg4nBQOxCoZGz1y",
+    "data": {
+      "label": "Interdimensional travel"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 12,
+      "y": 1012
+    },
+    "parent": "0zyljObQeS9W9vpBrdyeE",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 541,
+    "x": 12,
+    "y": 1012
+  }
+]
+`
 
-var initialEdges = `[
-  { id: "e1-2", source: "1", target: "2" },
-  { id: "e2-3", source: "2", target: "3" },
-  { id: "e2-4", source: "2", target: "4" },
-  { id: "e2-5", source: "2", target: "5" },
-  { id: "e1-6", source: "1", target: "6" },
-  { id: "e6-7", source: "6", target: "7" },
-  { id: "e6-8", source: "6", target: "8" },
-  { id: "e6-9", source: "6", target: "9" },
-  { id: "e6-10", source: "6", target: "10" },
-  { id: "e6-11", source: "6", target: "11" },
-  { id: "e6-12", source: "6", target: "12" },
-  { id: "e12-13", source: "12", target: "13" },
-  { id: "e12-14", source: "12", target: "14" },
-  { id: "e12-15", source: "12", target: "15" },
-  { id: "e12-16", source: "12", target: "16" },
-];`
+var initialEdges = `
+[
+  {
+    "id": "uokKcnPMRv9nKWd-F-_YY",
+    "data": {
+      "label": {
+        "squadName": "Super hero squad",
+        "homeTown": "Metro City",
+        "formed": 2016,
+        "secretBase": "Super tower",
+        "active": true
+      }
+    },
+    "position": {
+      "x": 462,
+      "y": 12
+    },
+    "type": "jsonVis",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 511,
+    "x": 462,
+    "y": 12
+  },
+  {
+    "id": "aXp1nbws2IiRJsjHO5E1C",
+    "data": {
+      "label": "members"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 462,
+      "y": 262
+    },
+    "parent": "uokKcnPMRv9nKWd-F-_YY",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 513,
+    "x": 462,
+    "y": 262
+  },
+  {
+    "id": "L3fzrf0cmkcLFzeCdk5MG",
+    "data": {
+      "label": {
+        "name": "Molecule Man",
+        "age": 29,
+        "secretIdentity": "Dan Jukes"
+      }
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 1943.25,
+      "y": 512
+    },
+    "parent": "aXp1nbws2IiRJsjHO5E1C",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 515,
+    "x": 1943.25,
+    "y": 512
+  },
+  {
+    "id": "MF7EROOWXVAX8E3CqlBda",
+    "data": {
+      "label": "powers"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 1943.25,
+      "y": 762
+    },
+    "parent": "L3fzrf0cmkcLFzeCdk5MG",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 517,
+    "x": 1943.25,
+    "y": 762
+  },
+  {
+    "id": "cyWW5lEqFvWUpzyWC8iYQ",
+    "data": {
+      "label": "Radiation resistance"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 1812,
+      "y": 1012
+    },
+    "parent": "MF7EROOWXVAX8E3CqlBda",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 519,
+    "x": 1812,
+    "y": 1012
+  },
+  {
+    "id": "NR5o-GQJoBLDV577J1D7L",
+    "data": {
+      "label": "Turning tiny"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 2112,
+      "y": 1012
+    },
+    "parent": "MF7EROOWXVAX8E3CqlBda",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 521,
+    "x": 2112,
+    "y": 1012
+  },
+  {
+    "id": "Ev8wFKpv2Lc-I1-FxoxUD",
+    "data": {
+      "label": "Radiation blast"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 1512,
+      "y": 1012
+    },
+    "parent": "MF7EROOWXVAX8E3CqlBda",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 523,
+    "x": 1512,
+    "y": 1012
+  },
+  {
+    "id": "9kbMx45W4QKeW1DynV-AN",
+    "data": {
+      "label": "lol"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 12,
+      "y": 512
+    },
+    "parent": "aXp1nbws2IiRJsjHO5E1C",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 525,
+    "x": 12,
+    "y": 512
+  },
+  {
+    "id": "Z2K5-GXcYDy9MewoZRf27",
+    "data": {
+      "label": {
+        "name": "Madame Uppercut",
+        "age": 39,
+        "secretIdentity": "Jane Wilson"
+      }
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 312,
+      "y": 512
+    },
+    "parent": "aXp1nbws2IiRJsjHO5E1C",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 527,
+    "x": 312,
+    "y": 512
+  },
+  {
+    "id": "iDXyn5OcnG17jZ1WmDVsq",
+    "data": {
+      "label": {
+        "name": "Eternal Flame",
+        "age": 1000000,
+        "secretIdentity": "Unknown"
+      }
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 612,
+      "y": 512
+    },
+    "parent": "aXp1nbws2IiRJsjHO5E1C",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 529,
+    "x": 612,
+    "y": 512
+  },
+  {
+    "id": "0zyljObQeS9W9vpBrdyeE",
+    "data": {
+      "label": "powers"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 612,
+      "y": 762
+    },
+    "parent": "iDXyn5OcnG17jZ1WmDVsq",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 531,
+    "x": 612,
+    "y": 762
+  },
+  {
+    "id": "O6tpqkcq2EzqY89khlusu",
+    "data": {
+      "label": "Immortality"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 312,
+      "y": 1012
+    },
+    "parent": "0zyljObQeS9W9vpBrdyeE",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 533,
+    "x": 312,
+    "y": 1012
+  },
+  {
+    "id": "AJ_GuX3R5VNkzdktk52q5",
+    "data": {
+      "label": "Heat Immunity"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 912,
+      "y": 1012
+    },
+    "parent": "0zyljObQeS9W9vpBrdyeE",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 535,
+    "x": 912,
+    "y": 1012
+  },
+  {
+    "id": "7uofEQ_p5J5EtvLeqAkej",
+    "data": {
+      "label": "Inferno"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 1212,
+      "y": 1012
+    },
+    "parent": "0zyljObQeS9W9vpBrdyeE",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 537,
+    "x": 1212,
+    "y": 1012
+  },
+  {
+    "id": "5ygEORyDxPRH529qqxLcL",
+    "data": {
+      "label": "Teleportation"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 612,
+      "y": 1012
+    },
+    "parent": "0zyljObQeS9W9vpBrdyeE",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 539,
+    "x": 612,
+    "y": 1012
+  },
+  {
+    "id": "fIv7iBMg4nBQOxCoZGz1y",
+    "data": {
+      "label": "Interdimensional travel"
+    },
+    "type": "jsonVis",
+    "position": {
+      "x": 12,
+      "y": 1012
+    },
+    "parent": "0zyljObQeS9W9vpBrdyeE",
+    "targetPosition": "top",
+    "sourcePosition": "bottom",
+    "width": 150,
+    "height": 50,
+    "$H": 541,
+    "x": 12,
+    "y": 1012
+  }
+]
+`
 
 type r_data struct {
 	InitialNodes string
@@ -383,6 +884,7 @@ func main() {
 			Bundle:      true,
 			Outfile:     "my-react-app/dist/bundle.js",
 			Write:       true,
+			JSX:         api.JSXAutomatic,
 		})
 		if len(result.Errors) > 0 {
 			fmt.Println(result.Errors)
