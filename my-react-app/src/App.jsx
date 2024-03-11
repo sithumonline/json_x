@@ -6,6 +6,7 @@ import ReactFlow, {
   useEdgesState,
   addEdge,
 } from "reactflow";
+import ELK from "elkjs/lib/elk.bundled.js";
 
 import styles from "./App.module.css";
 
@@ -199,12 +200,77 @@ function parseJsonData(json_data, parentKey, levelIndex = 0, elementIndex = 0) {
 
 parseJsonData(json_data, null);
 
+const elk = new ELK();
+
+/**
+ *
+ * @param {*} nodes array of nodes from store
+ * @param {*} edges array of edges from store
+ * @param {*} options options from elkOptions. Used for layouting tree
+ * @returns promises that contains array of nodes or edges that already get layouted or repositioned
+ */
+const getLayoutedElements = (nodes, edges, options = {}) => {
+  const isHorizontal = options?.["elk.direction"] === "RIGHT";
+  // console.log(isHorizontal);
+  const graph = {
+    id: "root",
+    layoutOptions: options,
+    //Passed array of nodes that contains target position and source position. The target position and source position change based on isHorizontal
+    children: nodes.map((node) => ({
+      ...node,
+      targetPosition: isHorizontal ? "left" : "top",
+      sourcePosition: isHorizontal ? "right" : "bottom",
+      //Hardcode a width and height for node so that elk can use it when layouting.
+      width: 150,
+      height: 50,
+    })),
+    edges: edges,
+  };
+
+  // console.log(graph);
+
+  //Return promises
+  return elk
+    .layout(graph)
+    .then((layoutedGraph) => ({
+      nodes: layoutedGraph.children.map((node) => ({
+        ...node,
+        // React Flow expects a position property on the node instead of `x` and `y` fields.
+        position: { x: node.x, y: node.y },
+      })),
+      edges: layoutedGraph.edges,
+    }))
+    .catch(console.error);
+};
+
+//Elk options for layouting the tree
+const elkOptions = {
+  "elk.algorithm": "layered",
+  "elk.layered.spacing.nodeNodeBetweenLayers": "200",
+  "elk.spacing.nodeNode": "150",
+  "elk.edgeRouting": "SPLINES",
+};
+
 export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
+  // const onConnect = useCallback(
+  //   (params) => setEdges((eds) => addEdge(params, eds)),
+  //   [setEdges]
+  // );
+
   const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
+    getLayoutedElements(initialNodes, initialEdges, {
+      "elk.direction": "RIGHT",
+      ...elkOptions,
+    })
+      .then(({ nodes: layoutedNodes, edges: layoutedEdges }) => {
+        //add layouted or repositioned nodes and edges to store, so that react flow will render the layouted or repositioned nodes and edges
+        setNodes(layoutedNodes);
+        setEdges(layoutedEdges);
+      })
+      .catch(console.error),
     [setEdges]
   );
 
