@@ -238,7 +238,12 @@ func autoGraph(f []flow, dd [][]string) []flow {
 	src := graph.EdgeSlice(dd)
 
 	// run the default autolayout pipeline
-	layout := autog.Layout(src)
+	layout := autog.Layout(
+		src,
+		autog.WithLayerSpacing(300.0),
+		autog.WithNodeSpacing(400.0),
+		autog.WithPositioning(autog.PositioningVAlign),
+	)
 
 	for _, l := range layout.Nodes {
 		i := slices.IndexFunc(f, func(d flow) bool {
