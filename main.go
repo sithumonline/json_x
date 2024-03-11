@@ -61,9 +61,9 @@ var json_data = `
 `
 
 var initialNodes = `
-[
+ [
   {
-    "id": "uokKcnPMRv9nKWd-F-_YY",
+    "id": "JT9nF7hFMPVyjU0ktYg8u",
     "data": {
       "label": {
         "squadName": "Super hero squad",
@@ -82,12 +82,12 @@ var initialNodes = `
     "sourcePosition": "bottom",
     "width": 150,
     "height": 50,
-    "$H": 511,
+    "$H": 825,
     "x": 462,
     "y": 12
   },
   {
-    "id": "aXp1nbws2IiRJsjHO5E1C",
+    "id": "13J4-8NZIVGrfNovVTq26",
     "data": {
       "label": "members"
     },
@@ -96,17 +96,17 @@ var initialNodes = `
       "x": 462,
       "y": 262
     },
-    "parent": "uokKcnPMRv9nKWd-F-_YY",
+    "parent": "JT9nF7hFMPVyjU0ktYg8u",
     "targetPosition": "top",
     "sourcePosition": "bottom",
     "width": 150,
     "height": 50,
-    "$H": 513,
+    "$H": 827,
     "x": 462,
     "y": 262
   },
   {
-    "id": "L3fzrf0cmkcLFzeCdk5MG",
+    "id": "UpZv9xrgQFuH9phiiu9mA",
     "data": {
       "label": {
         "name": "Molecule Man",
@@ -119,17 +119,17 @@ var initialNodes = `
       "x": 1943.25,
       "y": 512
     },
-    "parent": "aXp1nbws2IiRJsjHO5E1C",
+    "parent": "13J4-8NZIVGrfNovVTq26",
     "targetPosition": "top",
     "sourcePosition": "bottom",
     "width": 150,
     "height": 50,
-    "$H": 515,
+    "$H": 829,
     "x": 1943.25,
     "y": 512
   },
   {
-    "id": "MF7EROOWXVAX8E3CqlBda",
+    "id": "I3q-CPQSBdclDZAfORtoS",
     "data": {
       "label": "powers"
     },
@@ -138,17 +138,17 @@ var initialNodes = `
       "x": 1943.25,
       "y": 762
     },
-    "parent": "L3fzrf0cmkcLFzeCdk5MG",
+    "parent": "UpZv9xrgQFuH9phiiu9mA",
     "targetPosition": "top",
     "sourcePosition": "bottom",
     "width": 150,
     "height": 50,
-    "$H": 517,
+    "$H": 831,
     "x": 1943.25,
     "y": 762
   },
   {
-    "id": "cyWW5lEqFvWUpzyWC8iYQ",
+    "id": "y5gOWdbgjwxQ6ftXSyiLg",
     "data": {
       "label": "Radiation resistance"
     },
@@ -157,17 +157,17 @@ var initialNodes = `
       "x": 1812,
       "y": 1012
     },
-    "parent": "MF7EROOWXVAX8E3CqlBda",
+    "parent": "I3q-CPQSBdclDZAfORtoS",
     "targetPosition": "top",
     "sourcePosition": "bottom",
     "width": 150,
     "height": 50,
-    "$H": 519,
+    "$H": 833,
     "x": 1812,
     "y": 1012
   },
   {
-    "id": "NR5o-GQJoBLDV577J1D7L",
+    "id": "Ce5SqLytWelETkNBueZ0n",
     "data": {
       "label": "Turning tiny"
     },
@@ -176,17 +176,17 @@ var initialNodes = `
       "x": 2112,
       "y": 1012
     },
-    "parent": "MF7EROOWXVAX8E3CqlBda",
+    "parent": "I3q-CPQSBdclDZAfORtoS",
     "targetPosition": "top",
     "sourcePosition": "bottom",
     "width": 150,
     "height": 50,
-    "$H": 521,
+    "$H": 835,
     "x": 2112,
     "y": 1012
   },
   {
-    "id": "Ev8wFKpv2Lc-I1-FxoxUD",
+    "id": "h7fZmnnQZnyM8mqGY2m8F",
     "data": {
       "label": "Radiation blast"
     },
@@ -195,17 +195,17 @@ var initialNodes = `
       "x": 1512,
       "y": 1012
     },
-    "parent": "MF7EROOWXVAX8E3CqlBda",
+    "parent": "I3q-CPQSBdclDZAfORtoS",
     "targetPosition": "top",
     "sourcePosition": "bottom",
     "width": 150,
     "height": 50,
-    "$H": 523,
+    "$H": 837,
     "x": 1512,
     "y": 1012
   },
   {
-    "id": "9kbMx45W4QKeW1DynV-AN",
+    "id": "J2XljHjG17fSTm7UsnKuk",
     "data": {
       "label": "lol"
     },
@@ -214,17 +214,17 @@ var initialNodes = `
       "x": 12,
       "y": 512
     },
-    "parent": "aXp1nbws2IiRJsjHO5E1C",
+    "parent": "13J4-8NZIVGrfNovVTq26",
     "targetPosition": "top",
     "sourcePosition": "bottom",
     "width": 150,
     "height": 50,
-    "$H": 525,
+    "$H": 839,
     "x": 12,
     "y": 512
   },
   {
-    "id": "Z2K5-GXcYDy9MewoZRf27",
+    "id": "nF_bOmOXonb2DmOzqxOXo",
     "data": {
       "label": {
         "name": "Madame Uppercut",
@@ -237,17 +237,17 @@ var initialNodes = `
       "x": 312,
       "y": 512
     },
-    "parent": "aXp1nbws2IiRJsjHO5E1C",
+    "parent": "13J4-8NZIVGrfNovVTq26",
     "targetPosition": "top",
     "sourcePosition": "bottom",
     "width": 150,
     "height": 50,
-    "$H": 527,
+    "$H": 841,
     "x": 312,
     "y": 512
   },
   {
-    "id": "iDXyn5OcnG17jZ1WmDVsq",
+    "id": "AfeEyOE2Qj0dNCYnQ_7oe",
     "data": {
       "label": {
         "name": "Eternal Flame",
@@ -260,17 +260,17 @@ var initialNodes = `
       "x": 612,
       "y": 512
     },
-    "parent": "aXp1nbws2IiRJsjHO5E1C",
+    "parent": "13J4-8NZIVGrfNovVTq26",
     "targetPosition": "top",
     "sourcePosition": "bottom",
     "width": 150,
     "height": 50,
-    "$H": 529,
+    "$H": 843,
     "x": 612,
     "y": 512
   },
   {
-    "id": "0zyljObQeS9W9vpBrdyeE",
+    "id": "Kc5TZRLv-CbMIC27TMF7y",
     "data": {
       "label": "powers"
     },
@@ -279,17 +279,17 @@ var initialNodes = `
       "x": 612,
       "y": 762
     },
-    "parent": "iDXyn5OcnG17jZ1WmDVsq",
+    "parent": "AfeEyOE2Qj0dNCYnQ_7oe",
     "targetPosition": "top",
     "sourcePosition": "bottom",
     "width": 150,
     "height": 50,
-    "$H": 531,
+    "$H": 845,
     "x": 612,
     "y": 762
   },
   {
-    "id": "O6tpqkcq2EzqY89khlusu",
+    "id": "Cl4g9tLNXqE2R8p5t1Dtn",
     "data": {
       "label": "Immortality"
     },
@@ -298,17 +298,17 @@ var initialNodes = `
       "x": 312,
       "y": 1012
     },
-    "parent": "0zyljObQeS9W9vpBrdyeE",
+    "parent": "Kc5TZRLv-CbMIC27TMF7y",
     "targetPosition": "top",
     "sourcePosition": "bottom",
     "width": 150,
     "height": 50,
-    "$H": 533,
+    "$H": 847,
     "x": 312,
     "y": 1012
   },
   {
-    "id": "AJ_GuX3R5VNkzdktk52q5",
+    "id": "2owVKiOQlID9xNu9s-4Z9",
     "data": {
       "label": "Heat Immunity"
     },
@@ -317,17 +317,17 @@ var initialNodes = `
       "x": 912,
       "y": 1012
     },
-    "parent": "0zyljObQeS9W9vpBrdyeE",
+    "parent": "Kc5TZRLv-CbMIC27TMF7y",
     "targetPosition": "top",
     "sourcePosition": "bottom",
     "width": 150,
     "height": 50,
-    "$H": 535,
+    "$H": 849,
     "x": 912,
     "y": 1012
   },
   {
-    "id": "7uofEQ_p5J5EtvLeqAkej",
+    "id": "yg1h4Vc0F0eP48PwCufJb",
     "data": {
       "label": "Inferno"
     },
@@ -336,17 +336,17 @@ var initialNodes = `
       "x": 1212,
       "y": 1012
     },
-    "parent": "0zyljObQeS9W9vpBrdyeE",
+    "parent": "Kc5TZRLv-CbMIC27TMF7y",
     "targetPosition": "top",
     "sourcePosition": "bottom",
     "width": 150,
     "height": 50,
-    "$H": 537,
+    "$H": 851,
     "x": 1212,
     "y": 1012
   },
   {
-    "id": "5ygEORyDxPRH529qqxLcL",
+    "id": "qcPxgcI1nTUzlI9m1Nwmi",
     "data": {
       "label": "Teleportation"
     },
@@ -355,17 +355,17 @@ var initialNodes = `
       "x": 612,
       "y": 1012
     },
-    "parent": "0zyljObQeS9W9vpBrdyeE",
+    "parent": "Kc5TZRLv-CbMIC27TMF7y",
     "targetPosition": "top",
     "sourcePosition": "bottom",
     "width": 150,
     "height": 50,
-    "$H": 539,
+    "$H": 853,
     "x": 612,
     "y": 1012
   },
   {
-    "id": "fIv7iBMg4nBQOxCoZGz1y",
+    "id": "0ulNSgD2n8rIJ9TfcTKkE",
     "data": {
       "label": "Interdimensional travel"
     },
@@ -374,12 +374,12 @@ var initialNodes = `
       "x": 12,
       "y": 1012
     },
-    "parent": "0zyljObQeS9W9vpBrdyeE",
+    "parent": "Kc5TZRLv-CbMIC27TMF7y",
     "targetPosition": "top",
     "sourcePosition": "bottom",
     "width": 150,
     "height": 50,
-    "$H": 541,
+    "$H": 855,
     "x": 12,
     "y": 1012
   }
@@ -389,325 +389,469 @@ var initialNodes = `
 var initialEdges = `
 [
   {
-    "id": "uokKcnPMRv9nKWd-F-_YY",
-    "data": {
-      "label": {
-        "squadName": "Super hero squad",
-        "homeTown": "Metro City",
-        "formed": 2016,
-        "secretBase": "Super tower",
-        "active": true
+    "id": "BCdZgXFYS1wIZTOhwKI9u",
+    "source": "JT9nF7hFMPVyjU0ktYg8u",
+    "target": "13J4-8NZIVGrfNovVTq26",
+    "sections": [
+      {
+        "id": "BCdZgXFYS1wIZTOhwKI9u_s0",
+        "startPoint": {
+          "x": 537,
+          "y": 62
+        },
+        "endPoint": {
+          "x": 537,
+          "y": 262
+        },
+        "bendPoints": [
+          {
+            "x": 537,
+            "y": 62
+          },
+          {
+            "x": 537,
+            "y": 162
+          }
+        ],
+        "incomingShape": "JT9nF7hFMPVyjU0ktYg8u",
+        "outgoingShape": "13J4-8NZIVGrfNovVTq26"
       }
-    },
-    "position": {
-      "x": 462,
-      "y": 12
-    },
-    "type": "jsonVis",
-    "targetPosition": "top",
-    "sourcePosition": "bottom",
-    "width": 150,
-    "height": 50,
-    "$H": 511,
-    "x": 462,
-    "y": 12
+    ],
+    "container": "root"
   },
   {
-    "id": "aXp1nbws2IiRJsjHO5E1C",
-    "data": {
-      "label": "members"
-    },
-    "type": "jsonVis",
-    "position": {
-      "x": 462,
-      "y": 262
-    },
-    "parent": "uokKcnPMRv9nKWd-F-_YY",
-    "targetPosition": "top",
-    "sourcePosition": "bottom",
-    "width": 150,
-    "height": 50,
-    "$H": 513,
-    "x": 462,
-    "y": 262
-  },
-  {
-    "id": "L3fzrf0cmkcLFzeCdk5MG",
-    "data": {
-      "label": {
-        "name": "Molecule Man",
-        "age": 29,
-        "secretIdentity": "Dan Jukes"
+    "id": "kbK4RNkHpxnFittOz3dJl",
+    "source": "13J4-8NZIVGrfNovVTq26",
+    "target": "UpZv9xrgQFuH9phiiu9mA",
+    "sections": [
+      {
+        "id": "kbK4RNkHpxnFittOz3dJl_s0",
+        "startPoint": {
+          "x": 582,
+          "y": 312
+        },
+        "endPoint": {
+          "x": 2018.25,
+          "y": 512
+        },
+        "bendPoints": [
+          {
+            "x": 582,
+            "y": 312
+          },
+          {
+            "x": 1874.625,
+            "y": 412
+          }
+        ],
+        "incomingShape": "13J4-8NZIVGrfNovVTq26",
+        "outgoingShape": "UpZv9xrgQFuH9phiiu9mA"
       }
-    },
-    "type": "jsonVis",
-    "position": {
-      "x": 1943.25,
-      "y": 512
-    },
-    "parent": "aXp1nbws2IiRJsjHO5E1C",
-    "targetPosition": "top",
-    "sourcePosition": "bottom",
-    "width": 150,
-    "height": 50,
-    "$H": 515,
-    "x": 1943.25,
-    "y": 512
+    ],
+    "container": "root"
   },
   {
-    "id": "MF7EROOWXVAX8E3CqlBda",
-    "data": {
-      "label": "powers"
-    },
-    "type": "jsonVis",
-    "position": {
-      "x": 1943.25,
-      "y": 762
-    },
-    "parent": "L3fzrf0cmkcLFzeCdk5MG",
-    "targetPosition": "top",
-    "sourcePosition": "bottom",
-    "width": 150,
-    "height": 50,
-    "$H": 517,
-    "x": 1943.25,
-    "y": 762
-  },
-  {
-    "id": "cyWW5lEqFvWUpzyWC8iYQ",
-    "data": {
-      "label": "Radiation resistance"
-    },
-    "type": "jsonVis",
-    "position": {
-      "x": 1812,
-      "y": 1012
-    },
-    "parent": "MF7EROOWXVAX8E3CqlBda",
-    "targetPosition": "top",
-    "sourcePosition": "bottom",
-    "width": 150,
-    "height": 50,
-    "$H": 519,
-    "x": 1812,
-    "y": 1012
-  },
-  {
-    "id": "NR5o-GQJoBLDV577J1D7L",
-    "data": {
-      "label": "Turning tiny"
-    },
-    "type": "jsonVis",
-    "position": {
-      "x": 2112,
-      "y": 1012
-    },
-    "parent": "MF7EROOWXVAX8E3CqlBda",
-    "targetPosition": "top",
-    "sourcePosition": "bottom",
-    "width": 150,
-    "height": 50,
-    "$H": 521,
-    "x": 2112,
-    "y": 1012
-  },
-  {
-    "id": "Ev8wFKpv2Lc-I1-FxoxUD",
-    "data": {
-      "label": "Radiation blast"
-    },
-    "type": "jsonVis",
-    "position": {
-      "x": 1512,
-      "y": 1012
-    },
-    "parent": "MF7EROOWXVAX8E3CqlBda",
-    "targetPosition": "top",
-    "sourcePosition": "bottom",
-    "width": 150,
-    "height": 50,
-    "$H": 523,
-    "x": 1512,
-    "y": 1012
-  },
-  {
-    "id": "9kbMx45W4QKeW1DynV-AN",
-    "data": {
-      "label": "lol"
-    },
-    "type": "jsonVis",
-    "position": {
-      "x": 12,
-      "y": 512
-    },
-    "parent": "aXp1nbws2IiRJsjHO5E1C",
-    "targetPosition": "top",
-    "sourcePosition": "bottom",
-    "width": 150,
-    "height": 50,
-    "$H": 525,
-    "x": 12,
-    "y": 512
-  },
-  {
-    "id": "Z2K5-GXcYDy9MewoZRf27",
-    "data": {
-      "label": {
-        "name": "Madame Uppercut",
-        "age": 39,
-        "secretIdentity": "Jane Wilson"
+    "id": "j5zJHygY-LGU4vkfF5wzj",
+    "source": "UpZv9xrgQFuH9phiiu9mA",
+    "target": "I3q-CPQSBdclDZAfORtoS",
+    "sections": [
+      {
+        "id": "j5zJHygY-LGU4vkfF5wzj_s0",
+        "startPoint": {
+          "x": 2018.25,
+          "y": 562
+        },
+        "endPoint": {
+          "x": 2018.25,
+          "y": 762
+        },
+        "bendPoints": [
+          {
+            "x": 2018.25,
+            "y": 562
+          },
+          {
+            "x": 2018.25,
+            "y": 662
+          }
+        ],
+        "incomingShape": "UpZv9xrgQFuH9phiiu9mA",
+        "outgoingShape": "I3q-CPQSBdclDZAfORtoS"
       }
-    },
-    "type": "jsonVis",
-    "position": {
-      "x": 312,
-      "y": 512
-    },
-    "parent": "aXp1nbws2IiRJsjHO5E1C",
-    "targetPosition": "top",
-    "sourcePosition": "bottom",
-    "width": 150,
-    "height": 50,
-    "$H": 527,
-    "x": 312,
-    "y": 512
+    ],
+    "container": "root"
   },
   {
-    "id": "iDXyn5OcnG17jZ1WmDVsq",
-    "data": {
-      "label": {
-        "name": "Eternal Flame",
-        "age": 1000000,
-        "secretIdentity": "Unknown"
+    "id": "cWPGWj7NINYn5T3tsjYmG",
+    "source": "I3q-CPQSBdclDZAfORtoS",
+    "target": "y5gOWdbgjwxQ6ftXSyiLg",
+    "sections": [
+      {
+        "id": "cWPGWj7NINYn5T3tsjYmG_s0",
+        "startPoint": {
+          "x": 2018.25,
+          "y": 812
+        },
+        "endPoint": {
+          "x": 1887,
+          "y": 1012
+        },
+        "bendPoints": [
+          {
+            "x": 2018.25,
+            "y": 812
+          },
+          {
+            "x": 1900.125,
+            "y": 912
+          }
+        ],
+        "incomingShape": "I3q-CPQSBdclDZAfORtoS",
+        "outgoingShape": "y5gOWdbgjwxQ6ftXSyiLg"
       }
-    },
-    "type": "jsonVis",
-    "position": {
-      "x": 612,
-      "y": 512
-    },
-    "parent": "aXp1nbws2IiRJsjHO5E1C",
-    "targetPosition": "top",
-    "sourcePosition": "bottom",
-    "width": 150,
-    "height": 50,
-    "$H": 529,
-    "x": 612,
-    "y": 512
+    ],
+    "container": "root"
   },
   {
-    "id": "0zyljObQeS9W9vpBrdyeE",
-    "data": {
-      "label": "powers"
-    },
-    "type": "jsonVis",
-    "position": {
-      "x": 612,
-      "y": 762
-    },
-    "parent": "iDXyn5OcnG17jZ1WmDVsq",
-    "targetPosition": "top",
-    "sourcePosition": "bottom",
-    "width": 150,
-    "height": 50,
-    "$H": 531,
-    "x": 612,
-    "y": 762
+    "id": "7jqNgUkcOrMEFyHw-I_oV",
+    "source": "I3q-CPQSBdclDZAfORtoS",
+    "target": "Ce5SqLytWelETkNBueZ0n",
+    "sections": [
+      {
+        "id": "7jqNgUkcOrMEFyHw-I_oV_s0",
+        "startPoint": {
+          "x": 2055.75,
+          "y": 812
+        },
+        "endPoint": {
+          "x": 2187,
+          "y": 1012
+        },
+        "bendPoints": [
+          {
+            "x": 2055.75,
+            "y": 812
+          },
+          {
+            "x": 2173.875,
+            "y": 912
+          }
+        ],
+        "incomingShape": "I3q-CPQSBdclDZAfORtoS",
+        "outgoingShape": "Ce5SqLytWelETkNBueZ0n"
+      }
+    ],
+    "container": "root"
   },
   {
-    "id": "O6tpqkcq2EzqY89khlusu",
-    "data": {
-      "label": "Immortality"
-    },
-    "type": "jsonVis",
-    "position": {
-      "x": 312,
-      "y": 1012
-    },
-    "parent": "0zyljObQeS9W9vpBrdyeE",
-    "targetPosition": "top",
-    "sourcePosition": "bottom",
-    "width": 150,
-    "height": 50,
-    "$H": 533,
-    "x": 312,
-    "y": 1012
+    "id": "Nb7xPpLaTGsuN_rZrfLFk",
+    "source": "I3q-CPQSBdclDZAfORtoS",
+    "target": "h7fZmnnQZnyM8mqGY2m8F",
+    "sections": [
+      {
+        "id": "Nb7xPpLaTGsuN_rZrfLFk_s0",
+        "startPoint": {
+          "x": 1980.75,
+          "y": 812
+        },
+        "endPoint": {
+          "x": 1587,
+          "y": 1012
+        },
+        "bendPoints": [
+          {
+            "x": 1980.75,
+            "y": 812
+          },
+          {
+            "x": 1626.375,
+            "y": 912
+          }
+        ],
+        "incomingShape": "I3q-CPQSBdclDZAfORtoS",
+        "outgoingShape": "h7fZmnnQZnyM8mqGY2m8F"
+      }
+    ],
+    "container": "root"
   },
   {
-    "id": "AJ_GuX3R5VNkzdktk52q5",
-    "data": {
-      "label": "Heat Immunity"
-    },
-    "type": "jsonVis",
-    "position": {
-      "x": 912,
-      "y": 1012
-    },
-    "parent": "0zyljObQeS9W9vpBrdyeE",
-    "targetPosition": "top",
-    "sourcePosition": "bottom",
-    "width": 150,
-    "height": 50,
-    "$H": 535,
-    "x": 912,
-    "y": 1012
+    "id": "rGvPVdQAE7fwPd3PAcQxe",
+    "source": "13J4-8NZIVGrfNovVTq26",
+    "target": "J2XljHjG17fSTm7UsnKuk",
+    "sections": [
+      {
+        "id": "rGvPVdQAE7fwPd3PAcQxe_s0",
+        "startPoint": {
+          "x": 492,
+          "y": 312
+        },
+        "endPoint": {
+          "x": 87,
+          "y": 512
+        },
+        "bendPoints": [
+          {
+            "x": 492,
+            "y": 312
+          },
+          {
+            "x": 127.5,
+            "y": 412
+          }
+        ],
+        "incomingShape": "13J4-8NZIVGrfNovVTq26",
+        "outgoingShape": "J2XljHjG17fSTm7UsnKuk"
+      }
+    ],
+    "container": "root"
   },
   {
-    "id": "7uofEQ_p5J5EtvLeqAkej",
-    "data": {
-      "label": "Inferno"
-    },
-    "type": "jsonVis",
-    "position": {
-      "x": 1212,
-      "y": 1012
-    },
-    "parent": "0zyljObQeS9W9vpBrdyeE",
-    "targetPosition": "top",
-    "sourcePosition": "bottom",
-    "width": 150,
-    "height": 50,
-    "$H": 537,
-    "x": 1212,
-    "y": 1012
+    "id": "-F_JQ7f_ugn1qj_VnWNB2",
+    "source": "13J4-8NZIVGrfNovVTq26",
+    "target": "nF_bOmOXonb2DmOzqxOXo",
+    "sections": [
+      {
+        "id": "-F_JQ7f_ugn1qj_VnWNB2_s0",
+        "startPoint": {
+          "x": 522,
+          "y": 312
+        },
+        "endPoint": {
+          "x": 387,
+          "y": 512
+        },
+        "bendPoints": [
+          {
+            "x": 522,
+            "y": 312
+          },
+          {
+            "x": 400.5,
+            "y": 412
+          }
+        ],
+        "incomingShape": "13J4-8NZIVGrfNovVTq26",
+        "outgoingShape": "nF_bOmOXonb2DmOzqxOXo"
+      }
+    ],
+    "container": "root"
   },
   {
-    "id": "5ygEORyDxPRH529qqxLcL",
-    "data": {
-      "label": "Teleportation"
-    },
-    "type": "jsonVis",
-    "position": {
-      "x": 612,
-      "y": 1012
-    },
-    "parent": "0zyljObQeS9W9vpBrdyeE",
-    "targetPosition": "top",
-    "sourcePosition": "bottom",
-    "width": 150,
-    "height": 50,
-    "$H": 539,
-    "x": 612,
-    "y": 1012
+    "id": "gKco3PaEShVw7zuK-geDr",
+    "source": "13J4-8NZIVGrfNovVTq26",
+    "target": "AfeEyOE2Qj0dNCYnQ_7oe",
+    "sections": [
+      {
+        "id": "gKco3PaEShVw7zuK-geDr_s0",
+        "startPoint": {
+          "x": 552,
+          "y": 312
+        },
+        "endPoint": {
+          "x": 687,
+          "y": 512
+        },
+        "bendPoints": [
+          {
+            "x": 552,
+            "y": 312
+          },
+          {
+            "x": 673.5,
+            "y": 412
+          }
+        ],
+        "incomingShape": "13J4-8NZIVGrfNovVTq26",
+        "outgoingShape": "AfeEyOE2Qj0dNCYnQ_7oe"
+      }
+    ],
+    "container": "root"
   },
   {
-    "id": "fIv7iBMg4nBQOxCoZGz1y",
-    "data": {
-      "label": "Interdimensional travel"
-    },
-    "type": "jsonVis",
-    "position": {
-      "x": 12,
-      "y": 1012
-    },
-    "parent": "0zyljObQeS9W9vpBrdyeE",
-    "targetPosition": "top",
-    "sourcePosition": "bottom",
-    "width": 150,
-    "height": 50,
-    "$H": 541,
-    "x": 12,
-    "y": 1012
+    "id": "P-71Ti__fSrJNVgEUpMml",
+    "source": "AfeEyOE2Qj0dNCYnQ_7oe",
+    "target": "Kc5TZRLv-CbMIC27TMF7y",
+    "sections": [
+      {
+        "id": "P-71Ti__fSrJNVgEUpMml_s0",
+        "startPoint": {
+          "x": 687,
+          "y": 562
+        },
+        "endPoint": {
+          "x": 687,
+          "y": 762
+        },
+        "bendPoints": [
+          {
+            "x": 687,
+            "y": 562
+          },
+          {
+            "x": 687,
+            "y": 662
+          }
+        ],
+        "incomingShape": "AfeEyOE2Qj0dNCYnQ_7oe",
+        "outgoingShape": "Kc5TZRLv-CbMIC27TMF7y"
+      }
+    ],
+    "container": "root"
+  },
+  {
+    "id": "k7rlIwRmgfp_gDbh4RClR",
+    "source": "Kc5TZRLv-CbMIC27TMF7y",
+    "target": "Cl4g9tLNXqE2R8p5t1Dtn",
+    "sections": [
+      {
+        "id": "k7rlIwRmgfp_gDbh4RClR_s0",
+        "startPoint": {
+          "x": 662,
+          "y": 812
+        },
+        "endPoint": {
+          "x": 387,
+          "y": 1012
+        },
+        "bendPoints": [
+          {
+            "x": 662,
+            "y": 812
+          },
+          {
+            "x": 414.5,
+            "y": 912
+          }
+        ],
+        "incomingShape": "Kc5TZRLv-CbMIC27TMF7y",
+        "outgoingShape": "Cl4g9tLNXqE2R8p5t1Dtn"
+      }
+    ],
+    "container": "root"
+  },
+  {
+    "id": "EyKpqDMPTJwfP8b1QV9ux",
+    "source": "Kc5TZRLv-CbMIC27TMF7y",
+    "target": "2owVKiOQlID9xNu9s-4Z9",
+    "sections": [
+      {
+        "id": "EyKpqDMPTJwfP8b1QV9ux_s0",
+        "startPoint": {
+          "x": 712,
+          "y": 812
+        },
+        "endPoint": {
+          "x": 987,
+          "y": 1012
+        },
+        "bendPoints": [
+          {
+            "x": 712,
+            "y": 812
+          },
+          {
+            "x": 959.5,
+            "y": 912
+          }
+        ],
+        "incomingShape": "Kc5TZRLv-CbMIC27TMF7y",
+        "outgoingShape": "2owVKiOQlID9xNu9s-4Z9"
+      }
+    ],
+    "container": "root"
+  },
+  {
+    "id": "KA1hp2ISMcTmW_igoi99j",
+    "source": "Kc5TZRLv-CbMIC27TMF7y",
+    "target": "yg1h4Vc0F0eP48PwCufJb",
+    "sections": [
+      {
+        "id": "KA1hp2ISMcTmW_igoi99j_s0",
+        "startPoint": {
+          "x": 737,
+          "y": 812
+        },
+        "endPoint": {
+          "x": 1287,
+          "y": 1012
+        },
+        "bendPoints": [
+          {
+            "x": 737,
+            "y": 812
+          },
+          {
+            "x": 1232,
+            "y": 912
+          }
+        ],
+        "incomingShape": "Kc5TZRLv-CbMIC27TMF7y",
+        "outgoingShape": "yg1h4Vc0F0eP48PwCufJb"
+      }
+    ],
+    "container": "root"
+  },
+  {
+    "id": "wJsjVeEBvXrB9cMXlTlLq",
+    "source": "Kc5TZRLv-CbMIC27TMF7y",
+    "target": "qcPxgcI1nTUzlI9m1Nwmi",
+    "sections": [
+      {
+        "id": "wJsjVeEBvXrB9cMXlTlLq_s0",
+        "startPoint": {
+          "x": 687,
+          "y": 812
+        },
+        "endPoint": {
+          "x": 687,
+          "y": 1012
+        },
+        "bendPoints": [
+          {
+            "x": 687,
+            "y": 812
+          },
+          {
+            "x": 687,
+            "y": 912
+          }
+        ],
+        "incomingShape": "Kc5TZRLv-CbMIC27TMF7y",
+        "outgoingShape": "qcPxgcI1nTUzlI9m1Nwmi"
+      }
+    ],
+    "container": "root"
+  },
+  {
+    "id": "06o-euRXwtrlSUhijdW6j",
+    "source": "Kc5TZRLv-CbMIC27TMF7y",
+    "target": "0ulNSgD2n8rIJ9TfcTKkE",
+    "sections": [
+      {
+        "id": "06o-euRXwtrlSUhijdW6j_s0",
+        "startPoint": {
+          "x": 637,
+          "y": 812
+        },
+        "endPoint": {
+          "x": 87,
+          "y": 1012
+        },
+        "bendPoints": [
+          {
+            "x": 637,
+            "y": 812
+          },
+          {
+            "x": 142,
+            "y": 912
+          }
+        ],
+        "incomingShape": "Kc5TZRLv-CbMIC27TMF7y",
+        "outgoingShape": "0ulNSgD2n8rIJ9TfcTKkE"
+      }
+    ],
+    "container": "root"
   }
 ]
 `
