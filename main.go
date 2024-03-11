@@ -12,13 +12,17 @@ import (
 	txt "text/template"
 
 	"github.com/evanw/esbuild/pkg/api"
+	gonanoid "github.com/matoous/go-nanoid/v2"
+	"github.com/nulab/autog"
+	"github.com/nulab/autog/graph"
 	"github.com/pkg/browser"
 	"github.com/sithumonline/json_x/data"
+	"golang.org/x/exp/slices"
 )
 
 type r_data struct {
-	InitialNodes string
-	InitialEdges string
+	InitialNodes string `json:"initialNodes,omitempty"`
+	InitialEdges string `json:"initialEdges,omitempty"`
 }
 
 type j_data struct {
@@ -28,9 +32,11 @@ type j_data struct {
 	jDataMap  map[string][]j_data
 	level     int
 	index     int
+	id        string
 }
 
 func recursion_map(data map[string]interface{}, key string, level, index int) j_data {
+	id, _ := gonanoid.Generate("abcde", 21)
 	j := j_data{
 		_map:      make(map[string]interface{}),
 		arraysMap: make(map[string][]interface{}),
@@ -38,6 +44,7 @@ func recursion_map(data map[string]interface{}, key string, level, index int) j_
 		_key:      key,
 		level:     level,
 		index:     index,
+		id:        id,
 	}
 
 	for k, v := range data {
@@ -147,6 +154,117 @@ func recursion_mermaid(j j_data, perviousKey string) string {
 	return mmd
 }
 
+type flow struct {
+	ID   string `json:"id,omitempty"`
+	Data struct {
+		Label map[string]interface{} `json:"label,omitempty"`
+	} `json:"data,omitempty"`
+	Type     string `json:"type,omitempty"`
+	Position struct {
+		X float64 `json:"x,omitempty"`
+		Y float64 `json:"y,omitempty"`
+	} `json:"position,omitempty"`
+	Parent         string `json:"parent,omitempty"`
+	TargetPosition string `json:"targetPosition,omitempty"`
+	SourcePosition string `json:"sourcePosition,omitempty"`
+	Width          int    `json:"width,omitempty"`
+	Height         int    `json:"height,omitempty"`
+	H              int    `json:"$H,omitempty"`
+	X              int    `json:"x,omitempty"`
+	Y              int    `json:"y,omitempty"`
+}
+
+func recursion_flow(j j_data, previousKey string) ([]flow, [][]string) {
+	var fl []flow
+	var adj [][]string
+
+	f := flow{
+		ID:     j.id,
+		Type:   "jsonVis",
+		Parent: previousKey,
+	}
+	f.Data.Label = make(map[string]interface{})
+
+	for k, v := range j._map {
+		f.Data.Label[k] = v
+	}
+
+	for k, v := range j.arraysMap {
+		id, _ := gonanoid.Generate("abcde", 21)
+		flow1 := flow{
+			ID:     id,
+			Type:   "jsonVis",
+			Parent: j.id,
+		}
+		flow1.Data.Label = make(map[string]interface{})
+		flow1.Data.Label[k] = k
+		fl = append(fl, flow1)
+		adj = append(adj, []string{j.id, id})
+		for _, val := range v {
+			id2, _ := gonanoid.Generate("abcde", 21)
+			flow2 := flow{
+				ID:     id2,
+				Type:   "jsonVis",
+				Parent: id,
+			}
+			flow2.Data.Label = make(map[string]interface{})
+			flow2.Data.Label[fmt.Sprintf("%v", val)] = val
+			fl = append(fl, flow2)
+			adj = append(adj, []string{id, id2})
+		}
+	}
+
+	for _, v := range j.jDataMap {
+		for _, val := range v {
+			adj = append(adj, []string{j.id, val.id})
+			gg, mm := recursion_flow(val, j.id)
+			fl = append(fl, gg...)
+			adj = append(adj, mm...)
+		}
+	}
+
+	fl = append(fl, f)
+	return fl, adj
+}
+
+type edges struct {
+	Id     string `json:"id"`
+	Source string `json:"source"`
+	Target string `json:"target"`
+}
+
+func autoGraph(f []flow, dd [][]string) []flow {
+	// obtain a graph.Source (here by converting the input to EdgeSlice)
+	src := graph.EdgeSlice(dd)
+
+	// run the default autolayout pipeline
+	layout := autog.Layout(src)
+
+	for _, l := range layout.Nodes {
+		i := slices.IndexFunc(f, func(d flow) bool {
+			return d.ID == l.ID
+		})
+		if i == -1 {
+			continue
+		}
+
+		f[i].Position.X = l.X
+		f[i].Position.Y = l.Y
+	}
+
+	return f
+}
+
+func getEdges(dd [][]string) []edges {
+	var e []edges
+	for _, d := range dd {
+		id, _ := gonanoid.Generate("abcde", 21)
+		e = append(e, edges{Id: id, Source: d[0], Target: d[1]})
+	}
+
+	return e
+}
+
 type Mermaid struct {
 	MMD string
 }
@@ -201,6 +319,76 @@ func main() {
 	})
 	http.HandleFunc("/dist/bundle.css", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "my-react-app/dist/bundle.css")
+	})
+	http.HandleFunc("/flow-json", func(w http.ResponseWriter, r *http.Request) {
+		file := r.URL.Query().Get("file")
+		l1, err := newFunction(file)
+		if err != nil {
+			w.Header().Set("Content-Type", "application/json")
+			w.Write([]byte(fmt.Sprintf("{\"error\": \"%s\"}", err)))
+			return
+		}
+
+		j := recursion_map(l1, "", 0, 0)
+		fl, adj := recursion_flow(j, "")
+		fl2 := autoGraph(fl, adj)
+		e := getEdges(adj)
+		w.Header().Set("Content-Type", "application/json")
+		type response struct {
+			Nodes []flow  `json:"nodes,omitempty"`
+			Edges []edges `json:"edges,omitempty"`
+		}
+		json.NewEncoder(w).Encode(response{Nodes: fl2, Edges: e})
+	})
+	http.HandleFunc("/flow-html", func(w http.ResponseWriter, r *http.Request) {
+		file := r.URL.Query().Get("file")
+		l1, err := newFunction(file)
+		if err != nil {
+			w.Header().Set("Content-Type", "application/json")
+			w.Write([]byte(fmt.Sprintf("{\"error\": \"%s\"}", err)))
+			return
+		}
+
+		j := recursion_map(l1, "", 0, 0)
+		fl, adj := recursion_flow(j, "")
+		fl2 := autoGraph(fl, adj)
+		e := getEdges(adj)
+
+		fl2d, err := json.Marshal(fl2)
+		if err != nil {
+			w.Header().Set("Content-Type", "application/json")
+			w.Write([]byte(fmt.Sprintf("{\"error\": \"%s\"}", err)))
+			return
+		}
+
+		ed, err := json.Marshal(e)
+		if err != nil {
+			w.Header().Set("Content-Type", "application/json")
+			w.Write([]byte(fmt.Sprintf("{\"error\": \"%s\"}", err)))
+			return
+		}
+
+		f, err := os.Create("my-react-app/src/App.jsx")
+		if err != nil {
+			w.Header().Set("Content-Type", "application/json")
+			w.Write([]byte(fmt.Sprintf("{\"error\": \"%s\"}", err)))
+			return
+		}
+		tmp_r.Execute(f, r_data{InitialNodes: string(fl2d), InitialEdges: string(ed)})
+		f.Close()
+
+		result := api.Build(api.BuildOptions{
+			EntryPoints: []string{"my-react-app/src/main.jsx"},
+			Bundle:      true,
+			Outfile:     "my-react-app/dist/bundle.js",
+			Write:       true,
+			JSX:         api.JSXAutomatic,
+		})
+		if len(result.Errors) > 0 {
+			fmt.Println(result.Errors)
+			return
+		}
+		http.ServeFile(w, r, "react.html")
 	})
 	browser.OpenURL("http://localhost:" + port)
 	http.ListenAndServe(":"+port, nil)
