@@ -21,10 +21,6 @@ class LabelWidgetWrapper(NodeBaseWidget):
         super(LabelWidgetWrapper, self).__init__(parent)
         self.set_name('label')
         self.set_custom_widget(LabelWidget())
-        self.width = 200
-        self.height = 50
-        self.setMinimumWidth(self.width)
-        self.setMinimumHeight(self.height)
 
     def get_value(self):
         widget = self.get_custom_widget()
@@ -35,8 +31,7 @@ class LabelWidgetWrapper(NodeBaseWidget):
         widget.label.setText(value)
 
     def set_size(self, width, height):
-        self.width = width
-        self.height = height
+        self.setMinimumSize(width, height)
 
 
 class LabelNode(BaseNode):
@@ -127,7 +122,7 @@ def create_nodes(node, parent_node=None):
             [f'<font color="#FF0000">{k}</font>:<font color="#00FF00">{v}</font>' for k, v in node.values.items()])
         key_node = create_label_node(node_graph, f'{node.key}_value', node.level, node.index, text)
         # set size based on the number of values
-        key_node.set_size(200, 50 + len(node.values) * 20)
+        key_node.set_size(200, 50 + len(node.values) * 5)
     else:
         key_node = create_label_node(node_graph, 'root', node.level, node.index, '<font color="#FF0000">root</font>')
 
@@ -149,7 +144,7 @@ def create_nodes(node, parent_node=None):
         key_value_node = create_label_node(node_graph, f'{node.key}_value', node.level, node.index, text)
         key_node.set_output(0, key_value_node.input(0))
         # set size based on the number of values
-        key_value_node.set_size(200, 50 + len(node.values) * 20)
+        key_value_node.set_size(200, 50 + len(node.values) * 5)
 
     for child in node.children:
         create_nodes(child, parent_node=key_node)
