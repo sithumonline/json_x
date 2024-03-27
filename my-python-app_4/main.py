@@ -1,7 +1,6 @@
 import uuid
 
 import dearpygui.dearpygui as dpg
-import matplotlib.pyplot as plt
 import networkx as nx
 
 
@@ -198,22 +197,28 @@ json_data = {
 }
 
 root_node = parse_json(json_data)
-print(root_node)
 
 G = nx.DiGraph()
 json_node_to_nodes_and_links(root_node, G)
 pos = nx.nx_agraph.graphviz_layout(G, prog="dot")
-# print(pos)
-nx.draw(G, pos, with_labels=True)
-plt.show()
+max_x = max(x for x, y in pos.values())
+max_y = max(y for x, y in pos.values())
+
+# upside down tree
+# x max = 1280, y max = 800
+pos = {k: (v[0], max_y - v[1] + 20) for k, v in pos.items()}
+
 
 dpg.create_context()
 
-window = dpg.add_window(label="Json_x", width=800, height=600)
-node_editor = dpg.add_node_editor(parent=window, callback=link_callback, delink_callback=delink_callback)
+dpg.create_viewport(title='Json X')
+
+window = dpg.add_window(label="Json_x",  width=dpg.get_viewport_width(), height=dpg.get_viewport_height())
+node_editor = dpg.add_node_editor(parent=window, callback=link_callback, delink_callback=delink_callback,
+                                  # minimap=True,
+                                  width=max_x + 100, height=max_y + 100)
 create_nodes2(root_node)
 
-dpg.create_viewport(title='Json X', width=800, height=600)
 dpg.setup_dearpygui()
 dpg.show_viewport()
 dpg.start_dearpygui()
