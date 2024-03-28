@@ -1,3 +1,4 @@
+import json
 import uuid
 
 import dearpygui.dearpygui as dpg
@@ -94,7 +95,20 @@ def delink_callback(sender, app_data):
     dpg.delete_item(app_data)
 
 
-def create_nodes2(node, parent=None):
+def file_dialog_callback(sender, app_data):
+    print(f"File Dialog Callback: {app_data}")
+    json_file = app_data["file_path_name"]
+    current_filter = app_data["current_filter"]
+    if current_filter != ".json":
+        print("Invalid file type")
+        return
+    with open(json_file) as f:
+        data = json.load(f)
+    node_graph, max_x, max_y, pos = get_graph(data)
+    create_nodes(node_graph, max_x, max_y, pos)
+
+
+def create_nodes2(node: JsonNode, parent=None, pos: dict = None, node_editor=None):
     if node.key:
         with dpg.node(parent=node_editor, pos=(pos[node.id][0], pos[node.id][1])):
             with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Output) as key_node:
@@ -141,7 +155,7 @@ def create_nodes2(node, parent=None):
         dpg.add_node_link(key_node, key_value_node, parent=node_editor)
 
     for child in node.children:
-        create_nodes2(child, parent=key_node)
+        create_nodes2(child, key_node, pos, node_editor)
 
 
 """"
@@ -180,44 +194,86 @@ with dpg.window(label="Tutorial", width=400, height=400) as window:
 """
 
 json_data = {
-    "name": "Example",
+    "squadName": "Super hero squad",
+    "homeTown": "Metro City",
+    "formed": 2016,
+    "secretBase": "Super tower",
     "active": True,
-    "count": 42,
-    "nested": {
-        "key": "value",
-        "list": [1, 2, 3],
-        "nested2": {
-            "key": "value"
+    "members": [
+        {
+            "name": "Molecule Man",
+            "age": 29,
+            "secretIdentity": "Dan Jukes",
+            "powers": [
+                "Radiation resistance",
+                "Turning tiny",
+                "Radiation blast"
+            ]
+        },
+        {
+            "name": "Madame Uppercut",
+            "age": 39,
+            "secretIdentity": "Jane Wilson",
+            "powers": [
+                "Million tonne punch",
+                "Damage resistance",
+                "Superhuman reflexes"
+            ]
+        },
+        {
+            "name": "Eternal Flame",
+            "age": 1000000,
+            "secretIdentity": "Unknown",
+            "powers": [
+                "Immortality",
+                "Heat Immunity",
+                "Inferno",
+                "Teleportation",
+                "Interdimensional travel"
+            ]
         }
-    },
-    "list": [
-        {"key": "value"},
-        {"key": "value"}
     ]
 }
 
-root_node = parse_json(json_data)
 
-G = nx.DiGraph()
-json_node_to_nodes_and_links(root_node, G)
-pos = nx.nx_agraph.graphviz_layout(G, prog="dot")
-max_x = max(x for x, y in pos.values())
-max_y = max(y for x, y in pos.values())
+def get_graph(json_in: dict) -> tuple:
+    # global root_node, pos, max_x, max_y
+    node_graph = parse_json(json_in)
+    G = nx.DiGraph()
+    json_node_to_nodes_and_links(node_graph, G)
+    pos = nx.nx_agraph.graphviz_layout(G, prog="dot")
+    max_x = max(x for x, y in pos.values())
+    max_y = max(y for x, y in pos.values())
+    # upside down tree
+    # x max = 1280, y max = 800
+    pos = {k: (v[0], max_y - v[1] + 20) for k, v in pos.items()}
+    return node_graph, max_x, max_y, pos
 
-# upside down tree
-# x max = 1280, y max = 800
-pos = {k: (v[0], max_y - v[1] + 20) for k, v in pos.items()}
+
+def create_nodes(node_graph, max_x, max_y, pos):
+    dpg.delete_item("node_editor")
+    node_editor = dpg.add_node_editor(parent=window, callback=link_callback, delink_callback=delink_callback,
+                                      # minimap=True,
+                                      width=max_x + 100, height=max_y + 100, tag="node_editor")
+    create_nodes2(node=node_graph, pos=pos, node_editor=node_editor)
 
 
 dpg.create_context()
 
 dpg.create_viewport(title='Json X')
 
-window = dpg.add_window(label="Json_x",  width=dpg.get_viewport_width(), height=dpg.get_viewport_height())
-node_editor = dpg.add_node_editor(parent=window, callback=link_callback, delink_callback=delink_callback,
-                                  # minimap=True,
-                                  width=max_x + 100, height=max_y + 100)
-create_nodes2(root_node)
+# file dialog for opening json file
+with dpg.file_dialog(label="Open File", callback=file_dialog_callback, directory_selector=False,
+                     show=False, width=700, height=400) as file_dialog:
+    dpg.add_file_extension(".*")
+    dpg.add_file_extension("", color=(150, 255, 150, 255))
+    dpg.add_file_extension(".json", color=(150, 255, 150, 255), custom_text="[JSON]")
+
+window = dpg.add_window(label="Json_x", width=dpg.get_viewport_width(), height=dpg.get_viewport_height())
+dpg.add_button(label="Open File", callback=lambda: dpg.show_item(file_dialog), parent=window)
+
+node_graph, max_x, max_y, pos = get_graph(json_data)
+create_nodes(node_graph, max_x, max_y, pos)
 
 dpg.setup_dearpygui()
 dpg.show_viewport()
