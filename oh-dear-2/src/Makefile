@@ -14,13 +14,13 @@
 #CXX = g++
 #CXX = clang++
 
-EXE = example_glfw_opengl3
+EXE = json_x_glfw_opengl3
 IMGUI_DIR = ../imgui
 IMNODES_DIR = ../imnodes
 SOURCES = main.cpp
 SOURCES += $(IMGUI_DIR)/imgui.cpp $(IMGUI_DIR)/imgui_demo.cpp $(IMGUI_DIR)/imgui_draw.cpp $(IMGUI_DIR)/imgui_tables.cpp $(IMGUI_DIR)/imgui_widgets.cpp
 SOURCES += $(IMGUI_DIR)/backends/imgui_impl_glfw.cpp $(IMGUI_DIR)/backends/imgui_impl_opengl3.cpp
-SOURCES += $(IMNODES_DIR)/imnodes.cpp
+SOURCES += $(IMNODES_DIR)/imnodes.cpp $(IMNODES_DIR)/json_x.cpp
 OBJS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
 UNAME_S := $(shell uname -s)
 LINUX_GL_LIBS = -lGL

@@ -11,7 +11,7 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "imnodes.h"
-#include "node_editor.h"
+#include "json_x.h"
 #include <stdio.h>
 #define GL_SILENCE_DEPRECATION
 #if defined(IMGUI_IMPL_OPENGL_ES2)
@@ -136,28 +136,7 @@ int main(int, char **)
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        ImGui::Begin("simple node editor xd");
-
-        ImNodes::BeginNodeEditor();
-        ImNodes::BeginNode(1);
-
-        ImNodes::BeginNodeTitleBar();
-        ImGui::TextUnformatted("simple node :)");
-        ImNodes::EndNodeTitleBar();
-
-        ImNodes::BeginInputAttribute(2);
-        ImGui::Text("input");
-        ImNodes::EndInputAttribute();
-
-        ImNodes::BeginOutputAttribute(3);
-        ImGui::Indent(40);
-        ImGui::Text("output");
-        ImNodes::EndOutputAttribute();
-
-        ImNodes::EndNode();
-        ImNodes::EndNodeEditor();
-
-        ImGui::End();
+        jsonX::NodeEditorShow();
 
         // Rendering
         ImGui::Render();

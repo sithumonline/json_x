@@ -1,6 +1,6 @@
 #pragma once
 
-namespace example
+namespace jsonX
 {
 void NodeEditorInitialize();
 void NodeEditorShow();
