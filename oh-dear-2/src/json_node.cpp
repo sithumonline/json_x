@@ -2,6 +2,7 @@
 #include <string>
 #include <map>
 #include <json.hpp>
+#include <random>
 
 class JsonNode
 {
@@ -18,8 +19,17 @@ public:
     JsonNode(std::string key = "", std::string parent_id = "", int level = 0, int index = 0)
         : key(key), parent_id(parent_id), level(level), index(index)
     {
-        // Generate a random UUID for the id
-        // This requires a separate library or system call, so it's omitted here
+        // Create a random device and seed a generator
+        std::random_device rd;
+        std::mt19937_64 gen(rd()); // Use the Mersenne Twister algorithm for 64-bit ints
+
+        // Define the distribution to span the full range of uint64_t
+        std::uniform_int_distribution<std::uint64_t> distrib;
+
+        // Generate a random 64-bit number
+        std::uint64_t numericUUID = distrib(gen);
+
+        id = std::to_string(numericUUID);
     }
 
     void add_value(std::string key, nlohmann::json value)
