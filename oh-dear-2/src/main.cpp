@@ -79,6 +79,7 @@ int main(int, char **)
     ImGuiIO &io = ImGui::GetIO();
     (void)io;
     ImNodes::CreateContext();
+    jsonX::NodeEditorInitialize();
     ImNodes::StyleColorsDark();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;  // Enable Gamepad Controls
@@ -156,6 +157,8 @@ int main(int, char **)
     // Cleanup
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
+    jsonX::NodeEditorShutdown();
+    ImNodes::DestroyContext();
     ImGui::DestroyContext();
 
     glfwDestroyWindow(window);
