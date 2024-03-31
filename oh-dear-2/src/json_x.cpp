@@ -121,6 +121,19 @@ namespace jsonX
                 i++;
             }
 
+            if (!node.key.empty() && !node.values.empty())
+            {
+                std::stringstream txt;
+                for (const auto &[k, v] : node.values)
+                {
+                    txt << k << ": " << v << "\n";
+                }
+
+                editor.nodes.push_back(Node(nodeId * 2, txt.str()));
+
+                editor.links.push_back(Link(nodeId * 2 + 5, nodeId + 2, nodeId * 2 + 1));
+            }
+
             for (JsonNode &child : node.children)
             {
                 createNodes(child, editor, nodeId + 2);
