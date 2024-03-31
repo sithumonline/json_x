@@ -3,6 +3,8 @@
 #include <imgui.h>
 #include "json_node.h"
 #include <json.hpp>
+#include <iostream>
+#include <time.h>
 using json = nlohmann::json;
 
 namespace jsonX
@@ -37,6 +39,7 @@ namespace jsonX
             std::vector<Node> nodes;
             std::vector<Link> links;
             int current_id = 0;
+            std::size_t size;
         };
 
         void createNode(Node node)
@@ -59,6 +62,7 @@ namespace jsonX
 
         void createNodes(JsonNode node, Editor &editor, int parent = 0)
         {
+            std::cout << "Create Node " << node.id << std::endl;
             uint64_t nodeId = std::stoull(node.id);
             if (!node.key.empty())
             {
@@ -92,6 +96,8 @@ namespace jsonX
 
         void show_editor(const char *editor_name, Editor &editor)
         {
+            std::cout << time(0) << " showEditor" << std::endl;
+
             ImNodes::EditorContextSet(editor.context);
 
             ImGui::Begin(editor_name);
@@ -109,7 +115,13 @@ namespace jsonX
                 {"object", {{"currency", "USD"}, {"value", 42.99}}}};
 
             JsonNode jNodes = parse_json(ex1);
-            createNodes(jNodes, editor);
+
+            std::size_t size = ex1.size();
+            if (editor.size != size)
+            {
+                editor.size = size;
+                createNodes(jNodes, editor);
+            }
 
             for (Node &node : editor.nodes)
             {
@@ -147,7 +159,7 @@ namespace jsonX
             ImGui::End();
         }
 
-        Editor editor1;
+        static Editor editor1;
     } // namespace
 
     void NodeEditorInitialize()
