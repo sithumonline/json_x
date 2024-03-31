@@ -12,7 +12,7 @@ namespace jsonX
 {
     namespace
     {
-        class IDGenerator
+        class UniqueIDGenerator
         {
         public:
             static int GenerateNodeID()
@@ -33,16 +33,16 @@ namespace jsonX
             int id;
             std::string text;
 
-            Node(int i, std::string text) : id(i), text(text)
+            Node(int id, const std::string &text) : id(id), text(text)
             {
             }
-            Node(std::string text)
+            Node(const std::string &text)
                 : text(text)
             {
-                id = IDGenerator::GenerateNodeID();
+                id = UniqueIDGenerator::GenerateNodeID();
             }
 
-            int getId()
+            int getId() const
             {
                 return id;
             }
@@ -54,15 +54,15 @@ namespace jsonX
             int start_attr, end_attr;
 
             Link() {}
-            Link(int id, int sa, int ea) : id(id), start_attr(sa), end_attr(ea)
+            Link(int id, int startAttr, int endAttr) : id(id), start_attr(startAttr), end_attr(endAttr)
             {
             }
-            Link(int sa, int ea) : start_attr(sa), end_attr(ea)
+            Link(int startAttr, int endAttr) : start_attr(startAttr), end_attr(endAttr)
             {
-                id = IDGenerator::GenerateLinkID();
+                id = UniqueIDGenerator::GenerateLinkID();
             }
 
-            int getId()
+            int getId() const
             {
                 return id;
             }
