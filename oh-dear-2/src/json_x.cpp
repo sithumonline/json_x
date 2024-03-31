@@ -5,6 +5,8 @@
 #include <json.hpp>
 #include <iostream>
 #include <time.h>
+#include <random>
+
 using json = nlohmann::json;
 
 namespace jsonX
@@ -88,6 +90,37 @@ namespace jsonX
                 editor.links.push_back(Link(nodeId + 3, parent, nodeId + 1));
             }
 
+            int i = 1;
+            for (const auto &[k, v] : node.lists)
+            {
+                editor.nodes.push_back(Node(nodeId + 4 + i, k));
+                editor.links.push_back(Link(nodeId + 4 + i + 3, nodeId + 2, nodeId + 4 + i + 1));
+
+                for (long unsigned int j = 0; j < v.size(); ++j)
+                {
+                    // int j = 1;
+                    std::cout << j << " showEditor" << std::endl;
+                    for (auto &[key, val] : v[j].items())
+                    {
+                        // Create a random device and seed a generator
+                        std::random_device rd;
+                        std::mt19937_64 gen(rd()); // Use the Mersenne Twister algorithm for 64-bit ints
+
+                        // Define the distribution to span the full range of uint64_t
+                        std::uniform_int_distribution<std::uint64_t> distrib;
+
+                        // Generate a random 64-bit number
+                        std::uint64_t numericUUID = distrib(gen);
+
+                        editor.nodes.push_back(Node(numericUUID, val)); // Fix: Pass 'y' instead of 'v'
+                        // j++;
+                        editor.links.push_back(Link(nodeId + 4 + i + 3 + j + 5, nodeId + 4 + i + 2, numericUUID + 1));
+                    }
+                }
+
+                i++;
+            }
+
             for (JsonNode &child : node.children)
             {
                 createNodes(child, editor, nodeId + 2);
@@ -111,7 +144,7 @@ namespace jsonX
                 {"name", "Niels"},
                 {"nothing", nullptr},
                 {"answer", {{"everything", 42}}},
-                {"list", {1, 0, 2}},
+                {"list", {"x", "y", "z"}},
                 {"object", {{"currency", "USD"}, {"value", 42.99}}}};
 
             JsonNode jNodes = parse_json(ex1);
