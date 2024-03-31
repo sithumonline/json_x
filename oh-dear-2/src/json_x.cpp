@@ -5,7 +5,6 @@
 #include <json.hpp>
 #include <iostream>
 #include <time.h>
-#include <random>
 
 using json = nlohmann::json;
 
@@ -13,14 +12,39 @@ namespace jsonX
 {
     namespace
     {
+        class IDGenerator
+        {
+        public:
+            static int GenerateNodeID()
+            {
+                static int nodeId = 0;
+                return ++nodeId;
+            }
+
+            static int GenerateLinkID()
+            {
+                static int linkId = 10000; // Start link IDs from 10000 to differentiate from node IDs
+                return ++linkId;
+            }
+        };
+
         struct Node
         {
             int id;
             std::string text;
 
-            Node(int i, std::string text)
-                : id(i), text(text)
+            Node(int i, std::string text) : id(i), text(text)
             {
+            }
+            Node(std::string text)
+                : text(text)
+            {
+                id = IDGenerator::GenerateNodeID();
+            }
+
+            int getId()
+            {
+                return id;
             }
         };
 
@@ -32,6 +56,15 @@ namespace jsonX
             Link() {}
             Link(int id, int sa, int ea) : id(id), start_attr(sa), end_attr(ea)
             {
+            }
+            Link(int sa, int ea) : start_attr(sa), end_attr(ea)
+            {
+                id = IDGenerator::GenerateLinkID();
+            }
+
+            int getId()
+            {
+                return id;
             }
         };
 
@@ -52,11 +85,11 @@ namespace jsonX
             ImGui::TextUnformatted("node");
             ImNodes::EndNodeTitleBar();
 
-            ImNodes::BeginInputAttribute(node.id + 1);
+            ImNodes::BeginInputAttribute(node.id << 8);
             ImGui::TextUnformatted(node.text.c_str()); // Convert std::string to const char*
             ImNodes::EndInputAttribute();
 
-            ImNodes::BeginOutputAttribute(node.id + 2);
+            ImNodes::BeginOutputAttribute(node.id << 16);
             ImNodes::EndOutputAttribute();
 
             ImNodes::EndNode();
@@ -65,10 +98,12 @@ namespace jsonX
         void createNodes(JsonNode node, Editor &editor, int parent = 0)
         {
             std::cout << "Create Node " << node.id << std::endl;
-            uint64_t nodeId = std::stoull(node.id);
+            int nodeId;
             if (!node.key.empty())
             {
-                editor.nodes.push_back(Node(nodeId, node.key));
+                Node no = Node(node.key);
+                nodeId = no.getId();
+                editor.nodes.push_back(no);
             }
             else if (!node.values.empty())
             {
@@ -78,47 +113,43 @@ namespace jsonX
                     txt << k << ": " << v << "\n";
                 }
 
-                editor.nodes.push_back(Node(nodeId, txt.str()));
+                Node no = Node(txt.str());
+                nodeId = no.getId();
+                editor.nodes.push_back(no);
             }
             else
             {
-                editor.nodes.push_back(Node(nodeId, ""));
+                Node no = Node("root");
+                nodeId = no.getId();
+                editor.nodes.push_back(no);
             }
 
             if (parent != 0)
             {
-                editor.links.push_back(Link(nodeId + 3, parent, nodeId + 1));
+                Link lin = Link(parent, nodeId << 8);
+                editor.links.push_back(lin);
             }
 
-            int i = 1;
             for (const auto &[k, v] : node.lists)
             {
-                editor.nodes.push_back(Node(nodeId + 4 + i, k));
-                editor.links.push_back(Link(nodeId + 4 + i + 3, nodeId + 2, nodeId + 4 + i + 1));
+                Node no = Node(k);
+                editor.nodes.push_back(no);
+
+                Link lin = Link(nodeId << 16, no.getId() << 8);
+                editor.links.push_back(lin);
 
                 for (long unsigned int j = 0; j < v.size(); ++j)
                 {
-                    // int j = 1;
                     std::cout << j << " showEditor" << std::endl;
                     for (auto &[key, val] : v[j].items())
                     {
-                        // Create a random device and seed a generator
-                        std::random_device rd;
-                        std::mt19937_64 gen(rd()); // Use the Mersenne Twister algorithm for 64-bit ints
+                        Node no1 = Node(val);
+                        editor.nodes.push_back(no1);
 
-                        // Define the distribution to span the full range of uint64_t
-                        std::uniform_int_distribution<std::uint64_t> distrib;
-
-                        // Generate a random 64-bit number
-                        std::uint64_t numericUUID = distrib(gen);
-
-                        editor.nodes.push_back(Node(numericUUID, val)); // Fix: Pass 'y' instead of 'v'
-                        // j++;
-                        editor.links.push_back(Link(nodeId + 4 + i + 3 + j + 5, nodeId + 4 + i + 2, numericUUID + 1));
+                        Link lin = Link(no.getId() << 16, no1.getId() << 8);
+                        editor.links.push_back(lin);
                     }
                 }
-
-                i++;
             }
 
             if (!node.key.empty() && !node.values.empty())
@@ -129,14 +160,16 @@ namespace jsonX
                     txt << k << ": " << v << "\n";
                 }
 
-                editor.nodes.push_back(Node(nodeId * 2, txt.str()));
+                Node no = Node(txt.str());
+                editor.nodes.push_back(no);
 
-                editor.links.push_back(Link(nodeId * 2 + 5, nodeId + 2, nodeId * 2 + 1));
+                Link lin = Link(nodeId << 16, no.getId() << 8);
+                editor.links.push_back(lin);
             }
 
             for (JsonNode &child : node.children)
             {
-                createNodes(child, editor, nodeId + 2);
+                createNodes(child, editor, nodeId << 16);
             }
         }
 
