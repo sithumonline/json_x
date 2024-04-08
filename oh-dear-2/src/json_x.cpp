@@ -7,6 +7,8 @@
 #include <time.h>
 #include <fstream>
 #include "layout.h"
+#include "ImGuiFileDialog.h"
+#include "ImGuiFileDialogConfig.h"
 
 using json = nlohmann::json;
 
@@ -79,6 +81,7 @@ namespace jsonX
             std::vector<Link> links;
             int current_id = 0;
             std::size_t size;
+            std::string jsonFile;
         };
 
         void createNode(Node node)
@@ -147,7 +150,6 @@ namespace jsonX
 
                 for (long unsigned int j = 0; j < v.size(); ++j)
                 {
-                    std::cout << j << " showEditor" << std::endl;
                     for (auto &[key, val] : v[j].items())
                     {
                         Node no1 = Node(val);
@@ -182,12 +184,18 @@ namespace jsonX
 
         void show_editor(const char *editor_name, Editor &editor)
         {
-            std::cout << time(0) << " showEditor" << std::endl;
-
             ImNodes::EditorContextSet(editor.context);
 
             ImGui::Begin(editor_name);
             ImGui::TextUnformatted("Json X");
+
+            if (ImGui::Button("Open File Dialog"))
+            {
+                IGFD::FileDialogConfig config;
+                config.path = ".";
+                ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose File", ".json", config);
+            }
+
             ImNodes::BeginNodeEditor();
 
             json ex1 = {
@@ -199,16 +207,31 @@ namespace jsonX
                 {"list", {"x", "y", "z"}},
                 {"object", {{"currency", "USD"}, {"value", 42.99}}}};
 
-            std::ifstream ifs("/home/sithum/Downloads/jsoncrack.json"); // Fix the incomplete type error
+            std::string jsonFile;
+            if (ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey"))
+            {
+                if (ImGuiFileDialog::Instance()->IsOk())
+                {
+                    std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
+                    std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
+                    jsonFile = filePathName;
 
-            ex1 = json::parse(ifs);
-
-            JsonNode jNodes = parse_json(ex1);
+                    std::ifstream ifs(filePathName);
+                    ex1 = json::parse(ifs);
+                    editor.nodes.clear();
+                    editor.links.clear();
+                    editor.current_id = 0;
+                }
+                ImGuiFileDialog::Instance()->Close();
+            }
 
             std::size_t size = ex1.size();
-            if (editor.size != size)
+            if ((editor.size != size && editor.jsonFile == jsonFile) || (editor.size != size && !jsonFile.empty()))
             {
                 editor.size = size;
+                editor.jsonFile = jsonFile;
+
+                JsonNode jNodes = parse_json(ex1);
                 createNodes(jNodes, editor);
 
                 std::vector<std::pair<int, int>> edges;
