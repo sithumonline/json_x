@@ -5,6 +5,9 @@
 #include <json.hpp>
 #include <iostream>
 #include <time.h>
+#include <queue>
+#include <fstream>
+#include <algorithm>
 
 using json = nlohmann::json;
 
@@ -28,9 +31,17 @@ namespace jsonX
             }
         };
 
+        struct NodeX
+        {
+            int id;
+            int level;
+            int position;
+        };
+
         struct Node
         {
             int id;
+            int x, y;
             std::string text;
 
             Node(int id, const std::string &text) : id(id), text(text)
@@ -52,12 +63,13 @@ namespace jsonX
         {
             int id;
             int start_attr, end_attr;
+            int start_node, end_node;
 
             Link() {}
             Link(int id, int startAttr, int endAttr) : id(id), start_attr(startAttr), end_attr(endAttr)
             {
             }
-            Link(int startAttr, int endAttr) : start_attr(startAttr), end_attr(endAttr)
+            Link(int startAttr, int endAttr, int start_node, int end_node) : start_attr(startAttr), end_attr(endAttr), start_node(start_node), end_node(end_node)
             {
                 id = UniqueIDGenerator::GenerateLinkID();
             }
@@ -67,6 +79,66 @@ namespace jsonX
                 return id;
             }
         };
+
+        std::unordered_map<int, std::vector<int>> buildTree(const std::vector<std::pair<int, int>> &edges)
+        {
+            std::unordered_map<int, std::vector<int>> children;
+            for (const auto &edge : edges)
+            {
+                children[edge.first].push_back(edge.second);
+            }
+            return children;
+        }
+
+        std::vector<int> findRoots(const std::unordered_map<int, std::vector<int>> &children)
+        {
+            std::vector<int> roots;
+            for (const auto &node : children)
+            {
+                if (std::find_if(children.begin(), children.end(), [&](const std::pair<int, std::vector<int>> &p)
+                                 { return std::find(p.second.begin(), p.second.end(), node.first) != p.second.end(); }) == children.end())
+                {
+                    roots.push_back(node.first);
+                }
+            }
+            return roots;
+        }
+
+        std::unordered_map<int, std::pair<int, int>> layoutTree(const std::vector<std::pair<int, int>> &edges, const std::string &direction, int nodeSpacing, int levelSpacing)
+        {
+            std::unordered_map<int, std::vector<int>> children = buildTree(edges);
+            std::vector<int> roots = findRoots(children);
+            std::unordered_map<int, std::pair<int, int>> positions;
+            std::queue<NodeX> q;
+            for (const auto &root : roots)
+            {
+                q.push(NodeX{root, 0, 0});
+            }
+            std::unordered_map<int, int> levelWidth;
+            while (!q.empty())
+            {
+                NodeX node = q.front();
+                q.pop();
+                int x, y;
+                if (direction == "top-to-bottom")
+                {
+                    x = node.position * nodeSpacing;
+                    y = node.level * levelSpacing;
+                }
+                else
+                { // "left-to-right"
+                    x = node.level * levelSpacing;
+                    y = node.position * nodeSpacing;
+                }
+                positions[node.id] = {x, y};
+                for (const auto &child : children[node.id])
+                {
+                    levelWidth[node.level + 1]++;
+                    q.push(NodeX{child, node.level + 1, levelWidth[node.level + 1]});
+                }
+            }
+            return positions;
+        }
 
         struct Editor
         {
@@ -80,6 +152,9 @@ namespace jsonX
         void createNode(Node node)
         {
             ImNodes::BeginNode(node.id);
+            const ImVec2 grid_pos = ImVec2(node.x, node.y);
+            ImNodes::SetNodeGridSpacePos(node.id, grid_pos);
+            // ImNodes::SetNodeEditorSpacePos(node.id, grid_pos);
 
             ImNodes::BeginNodeTitleBar();
             ImGui::TextUnformatted("node");
@@ -95,7 +170,7 @@ namespace jsonX
             ImNodes::EndNode();
         }
 
-        void createNodes(JsonNode node, Editor &editor, int parent = 0)
+        void createNodes(JsonNode node, Editor &editor, int parent = 0, int parentId = 0)
         {
             std::cout << "Create Node " << node.id << std::endl;
             int nodeId;
@@ -126,7 +201,7 @@ namespace jsonX
 
             if (parent != 0)
             {
-                Link lin = Link(parent, nodeId << 8);
+                Link lin = Link(parent, nodeId << 8, parentId, nodeId);
                 editor.links.push_back(lin);
             }
 
@@ -135,7 +210,7 @@ namespace jsonX
                 Node no = Node(k);
                 editor.nodes.push_back(no);
 
-                Link lin = Link(nodeId << 16, no.getId() << 8);
+                Link lin = Link(nodeId << 16, no.getId() << 8, nodeId, no.getId());
                 editor.links.push_back(lin);
 
                 for (long unsigned int j = 0; j < v.size(); ++j)
@@ -146,7 +221,7 @@ namespace jsonX
                         Node no1 = Node(val);
                         editor.nodes.push_back(no1);
 
-                        Link lin = Link(no.getId() << 16, no1.getId() << 8);
+                        Link lin = Link(no.getId() << 16, no1.getId() << 8, no.getId(), no1.getId());
                         editor.links.push_back(lin);
                     }
                 }
@@ -163,13 +238,13 @@ namespace jsonX
                 Node no = Node(txt.str());
                 editor.nodes.push_back(no);
 
-                Link lin = Link(nodeId << 16, no.getId() << 8);
+                Link lin = Link(nodeId << 16, no.getId() << 8, nodeId, no.getId());
                 editor.links.push_back(lin);
             }
 
             for (JsonNode &child : node.children)
             {
-                createNodes(child, editor, nodeId << 16);
+                createNodes(child, editor, nodeId << 16, nodeId);
             }
         }
 
@@ -181,7 +256,6 @@ namespace jsonX
 
             ImGui::Begin(editor_name);
             ImGui::TextUnformatted("Json X");
-
             ImNodes::BeginNodeEditor();
 
             json ex1 = {
@@ -193,6 +267,10 @@ namespace jsonX
                 {"list", {"x", "y", "z"}},
                 {"object", {{"currency", "USD"}, {"value", 42.99}}}};
 
+            std::ifstream ifs("/home/sithum/Downloads/jsoncrack.json"); // Fix the incomplete type error
+
+            ex1 = json::parse(ifs);
+
             JsonNode jNodes = parse_json(ex1);
 
             std::size_t size = ex1.size();
@@ -200,6 +278,23 @@ namespace jsonX
             {
                 editor.size = size;
                 createNodes(jNodes, editor);
+
+                std::vector<std::pair<int, int>> edges;
+
+                // loop through the nodes and create edges
+                for (const auto &link : editor.links)
+                {
+                    edges.emplace_back(link.start_node, link.end_node);
+                }
+
+                std::unordered_map<int, std::pair<int, int>> positions = layoutTree(edges, "top-to-bottom", 200, 200);
+
+                for (auto &node : editor.nodes)
+                {
+                    auto pos = positions[node.id];
+                    node.x = pos.first;
+                    node.y = pos.second;
+                }
             }
 
             for (Node &node : editor.nodes)
