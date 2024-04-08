@@ -2,7 +2,7 @@ import json
 import uuid
 
 import dearpygui.dearpygui as dpg
-import networkx as nx
+from collections import defaultdict, deque
 
 
 class JsonNode:
@@ -56,31 +56,21 @@ def process_list(lst, parent_node, key, level):
             parent_node.add_list(key, item)
 
 
-def json_node_to_nodes_and_links(node, G):
-    if node.key:
-        G.add_node(node.id, label=node.key)
-    elif node.values:
-        G.add_node(node.id, label="\n".join(f"{k}: {v}" for k, v in node.values.items()))
-    else:
-        G.add_node(node.id)
-
+def json_node_to_nodes_and_links(node, edges):
     if node.parent_id:
-        G.add_edge(node.parent_id, node.id)
+        edges.append((node.parent_id, node.id))
 
     for key, value in node.lists.items():
-        G.add_node(node.id + "_" + key, label=key)
-        G.add_edge(node.id, node.id + "_" + key)
+        edges.append((node.id, node.id + "_" + key))
 
         for i, item in enumerate(value):
-            G.add_node(node.id + f"_{key}_{i}", label=str(item))
-            G.add_edge(node.id + "_" + key, node.id + f"_{key}_{i}")
+            edges.append((node.id + "_" + key, node.id + f"_{key}_{i}"))
 
     if node.values and node.key:
-        G.add_node(node.id + "_values", label="\n".join(f"{k}: {v}" for k, v in node.values.items()))
-        G.add_edge(node.id, node.id + "_values")
+        edges.append((node.id, node.id + "_values"))
 
     for child in node.children:
-        json_node_to_nodes_and_links(child, G)
+        json_node_to_nodes_and_links(child, edges)
 
 
 # callback runs when user attempts to connect attributes
@@ -157,6 +147,40 @@ def create_nodes2(node: JsonNode, parent=None, pos: dict = None, node_editor=Non
     for child in node.children:
         create_nodes2(child, key_node, pos, node_editor)
 
+def layout_tree(edges, direction, nodeSpacing, levelSpacing):
+    # Build the tree structure
+    children = defaultdict(list)
+    in_degree = defaultdict(int)
+    for u, v in edges:
+        children[u].append(v)
+        in_degree[v] += 1
+
+    # Identify the root node(s)
+    roots = [node for node in children if in_degree[node] == 0]
+
+    # Initialize positions dict
+    positions = {}
+
+    # Function to calculate positions
+    def bfs_layout():
+        queue = deque([(root, 0, 0) for root in roots]) # node, level, position within level
+        level_width = defaultdict(int)
+        while queue:
+            node, level, pos = queue.popleft()
+            # Calculate x and y based on direction
+            if direction == 'top-to-bottom':
+                x = pos * nodeSpacing
+                y = level * levelSpacing
+            else:  # 'left-to-right'
+                x = level * levelSpacing
+                y = pos * nodeSpacing
+            positions[node] = (x, y)
+            for child in children[node]:
+                level_width[level + 1] += 1
+                queue.append((child, level + 1, level_width[level + 1]))
+    
+    bfs_layout()
+    return positions
 
 """"
 with dpg.window(label="Tutorial", width=400, height=400) as window:
@@ -237,16 +261,12 @@ json_data = {
 
 
 def get_graph(json_in: dict) -> tuple:
-    # global root_node, pos, max_x, max_y
     node_graph = parse_json(json_in)
-    G = nx.DiGraph()
-    json_node_to_nodes_and_links(node_graph, G)
-    pos = nx.nx_agraph.graphviz_layout(G, prog="dot")
+    edges = []
+    json_node_to_nodes_and_links(node_graph, edges)
+    pos = layout_tree(edges, direction='top-to-bottom', nodeSpacing=200, levelSpacing=200)
     max_x = max(x for x, y in pos.values())
     max_y = max(y for x, y in pos.values())
-    # upside down tree
-    # x max = 1280, y max = 800
-    pos = {k: (v[0], max_y - v[1] + 20) for k, v in pos.items()}
     return node_graph, max_x, max_y, pos
 
 
