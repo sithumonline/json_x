@@ -23,8 +23,8 @@ jobs:
         run: |
           .\vcpkg\vcpkg install glfw3
       - name: Build and compile
-        run: >
-          cd "C:/Program Files/glfw3" && dir
+        run: |
+          cd ..src && make
       - name: upload artifact
         uses: actions/upload-artifact@v3
         with:
