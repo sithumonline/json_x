@@ -19,7 +19,7 @@ jobs:
         with:
           update: true
           install: >-
-            g++
+            mingw-w64-x86_64-gcc
             make
             mingw-w64-x86_64-glfw
       - name: Checkout code
