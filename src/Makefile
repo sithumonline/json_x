@@ -22,7 +22,7 @@ ifeq ($(UNAME_S), Linux)
 	PLATFORM = -linux-amd64
 endif
 ifeq ($(UNAME_S), Darwin)
-	PLATFORM = -macos-amd64
+	PLATFORM = -macos-arm64
 endif
 ifeq ($(OS), Windows_NT)
 	PLATFORM = -windows-amd64
