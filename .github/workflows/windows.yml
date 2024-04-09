@@ -14,14 +14,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Install vcpkg
-        run: |
-          git clone https://github.com/microsoft/vcpkg
-          cd vcpkg
-          .\bootstrap-vcpkg.bat
+      # - name: Install vcpkg
+      #   run: |
+      #     git clone https://github.com/microsoft/vcpkg
+      #     cd vcpkg
+      #     .\bootstrap-vcpkg.bat
+      # - name: Install GLFW
+      #   run: |
+      #     .\vcpkg\vcpkg install glfw3
       - name: Install GLFW
         run: |
-          .\vcpkg\vcpkg install glfw3
+          vcpkg install glfw3
       - name: Build and compile
         run: |
           cd src && make
