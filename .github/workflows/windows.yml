@@ -1,0 +1,23 @@
+name: Windows Release
+
+on:
+  push:
+    tags:
+      - v*
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Build and release for Windows
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build and compile
+        run: >
+          cd src && make
+      - name: upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          path: json_x_glfw_opengl3-windows-amd64.exe
