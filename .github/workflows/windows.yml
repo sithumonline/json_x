@@ -24,7 +24,7 @@ jobs:
       #     .\vcpkg\vcpkg install glfw3
       - name: Install GLFW
         run: |
-          vcpkg install glfw3
+          pacman -S mingw-w64-x86_64-glfw
       - name: Build and compile
         run: |
           cd src && make
