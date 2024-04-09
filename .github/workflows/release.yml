@@ -46,7 +46,6 @@ jobs:
           brew install glfw
       - name: Build and compile
         run: |
-          env /usr/bin/arch -arm64 /bin/zsh --login
           cd src && make
           echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
       - name: upload artifact
