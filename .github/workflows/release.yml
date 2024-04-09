@@ -37,7 +37,7 @@ jobs:
 
   release-macos:
     name: Build and release for MacOS
-    runs-on: macos-latest
+    runs-on: macos-14
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
