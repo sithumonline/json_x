@@ -4,6 +4,7 @@
 #include "json_node.h"
 #include <json.hpp>
 #include <iostream>
+#include <sstream>
 #include <time.h>
 #include <fstream>
 #include "layout.h"
