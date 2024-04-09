@@ -24,7 +24,7 @@ jobs:
           .\vcpkg\vcpkg install glfw3
       - name: Build and compile
         run: |
-          cd ..src && make
+          cd src && make
       - name: upload artifact
         uses: actions/upload-artifact@v3
         with:
