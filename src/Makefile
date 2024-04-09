@@ -11,11 +11,24 @@
 #   pacman -S --noconfirm --needed mingw-w64-x86_64-toolchain mingw-w64-x86_64-glfw
 #
 
-# CXX = zig c++
+#CXX = zig c++
 #CXX = g++
 #CXX = clang++
 
-EXE = json_x_glfw_opengl3
+UNAME_S := $(shell uname -s)
+
+PLATFORM :=
+ifeq ($(UNAME_S), Linux)
+	PLATFORM = -linux-amd64
+endif
+ifeq ($(UNAME_S), Darwin)
+	PLATFORM = -macos-amd64
+endif
+ifeq ($(OS), Windows_NT)
+	PLATFORM = -windows-amd64
+endif
+
+EXE = json_x_glfw_opengl3$(PLATFORM)
 IMGUI_DIR = ../imgui
 IMNODES_DIR = ../imnodes
 NOLOHMANN = ../json
@@ -26,7 +39,6 @@ SOURCES += $(IMGUI_DIR)/backends/imgui_impl_glfw.cpp $(IMGUI_DIR)/backends/imgui
 SOURCES += $(IMGUI_FILE_DIALOG)/ImGuiFileDialog.cpp
 SOURCES += $(IMNODES_DIR)/imnodes.cpp $(IMNODES_DIR)/json_x.cpp $(IMNODES_DIR)/json_node.cpp $(IMNODES_DIR)/layout.cpp
 OBJS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
-UNAME_S := $(shell uname -s)
 LINUX_GL_LIBS = -lGL
 
 CXXFLAGS = -std=c++17 -I$(IMGUI_DIR) -I$(IMGUI_DIR)/backends -I$(IMNODES_DIR) -I$(NOLOHMANN) -I$(NOLOHMANN)/nlohmann -I$(NOLOHMANN)/nlohmann/thridparty -I$(IMGUI_FILE_DIALOG)
