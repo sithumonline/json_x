@@ -37,7 +37,7 @@ jobs:
 
   release-macos:
     name: Build and release for MacOS
-    runs-on: macos-13-xlarge
+    runs-on: macos-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -46,6 +46,7 @@ jobs:
           brew install glfw
       - name: Build and compile
         run: |
+          env /usr/bin/arch -arm64 /bin/zsh --login
           cd src && make
           echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
       - name: upload artifact
