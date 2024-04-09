@@ -19,8 +19,9 @@ jobs:
         with:
           update: true
           install: >-
-            mingw-w64-x86_64-gcc
+            git
             make
+            mingw-w64-x86_64-gcc
             mingw-w64-x86_64-glfw
       - name: Checkout code
         uses: actions/checkout@v2
