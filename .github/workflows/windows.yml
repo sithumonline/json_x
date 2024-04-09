@@ -27,8 +27,9 @@ jobs:
       - name: Build and compile
         run: |
           cd src && make
+          echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
       - name: upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: json_x_glfw_opengl3-windows-amd64_${{ matrix.fs }}
+          name: json_x_glfw_opengl3-windows-amd64_${{ env.sha_short }}
           path: src\json_x_glfw_opengl3-windows-amd64.exe
