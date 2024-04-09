@@ -74,6 +74,7 @@ ifeq ($(UNAME_S), Darwin) #APPLE
 
 	CXXFLAGS += -I/usr/local/include -I/opt/local/include -I/opt/homebrew/include -march=armv8-a
 	CFLAGS = $(CXXFLAGS)
+	CXX = clang++
 endif
 
 ifeq ($(OS), Windows_NT)
