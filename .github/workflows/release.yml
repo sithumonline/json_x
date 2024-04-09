@@ -8,42 +8,61 @@ on:
       - main
 
 jobs:
-  release-windows:
-    name: Build and release for Windows
-    runs-on: windows-latest
-    defaults:
-      run:
-        shell: msys2 {0}
-    steps:
-      - uses: msys2/setup-msys2@v2
-        with:
-          update: true
-          install: >-
-            git
-            make
-            mingw-w64-x86_64-gcc
-            mingw-w64-x86_64-glfw
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Build and compile
-        run: |
-          cd src && make
-          echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
-      - name: upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: json_x_glfw_opengl3-windows-amd64_${{ env.sha_short }}
-          path: src\json_x_glfw_opengl3-windows-amd64.exe
+  # release-windows:
+  #   name: Build and release for Windows
+  #   runs-on: windows-latest
+  #   defaults:
+  #     run:
+  #       shell: msys2 {0}
+  #   steps:
+  #     - uses: msys2/setup-msys2@v2
+  #       with:
+  #         update: true
+  #         install: >-
+  #           git
+  #           make
+  #           mingw-w64-x86_64-gcc
+  #           mingw-w64-x86_64-glfw
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
+  #     - name: Build and compile
+  #       run: |
+  #         cd src && make
+  #         echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+  #     - name: upload artifact
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: json_x_glfw_opengl3-windows-amd64_${{ env.sha_short }}
+  #         path: src\json_x_glfw_opengl3-windows-amd64.exe
 
-  release-macos:
-    name: Build and release for MacOS
-    runs-on: macos-14
+  # release-macos:
+  #   name: Build and release for MacOS
+  #   runs-on: macos-14
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
+  #     - name: Install Glfw3
+  #       run: |
+  #         brew install glfw
+  #     - name: Build and compile
+  #       run: |
+  #         cd src && make
+  #         echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+  #     - name: upload artifact
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: json_x_glfw_opengl3-macos-arm64_${{ env.sha_short }}
+  #         path: src/json_x_glfw_opengl3-macos-arm64
+
+  release-linux:
+    name: Build and release for Linux
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Install Glfw3
         run: |
-          brew install glfw
+          apt-get install libglfw-dev
       - name: Build and compile
         run: |
           cd src && make
@@ -51,5 +70,5 @@ jobs:
       - name: upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: json_x_glfw_opengl3-macos-amd64_${{ env.sha_short }}
-          path: src/json_x_glfw_opengl3-macos-amd64
+          name: json_x_glfw_opengl3-linux-amd64_${{ env.sha_short }}
+          path: src/json_x_glfw_opengl3-linux-amd64
