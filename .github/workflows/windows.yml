@@ -41,4 +41,5 @@ jobs:
       - name: upload artifact
         uses: actions/upload-artifact@v3
         with:
+          name: json_x_glfw_opengl3-windows-amd64_${{ matrix.fs }}
           path: src\json_x_glfw_opengl3-windows-amd64.exe
