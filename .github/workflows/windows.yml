@@ -11,7 +11,15 @@ jobs:
   release:
     name: Build and release for Windows
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
     steps:
+      - uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >-
+            mingw-w64-x86_64-glfw
       - name: Checkout code
         uses: actions/checkout@v2
       # - name: Install vcpkg
@@ -22,9 +30,9 @@ jobs:
       # - name: Install GLFW
       #   run: |
       #     .\vcpkg\vcpkg install glfw3
-      - name: Install GLFW
-        run: |
-          pacman -S mingw-w64-x86_64-glfw
+      # - name: Install GLFW
+      #   run: |
+      #     pacman -S mingw-w64-x86_64-glfw
       - name: Build and compile
         run: |
           cd src && make
