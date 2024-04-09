@@ -1,4 +1,4 @@
-name: Windows Release
+name: Release Pipeline
 
 on:
   push:
@@ -37,7 +37,7 @@ jobs:
 
   release-macos:
     name: Build and release for MacOS
-    runs-on: macos-latest
+    runs-on: macos-latest-xlarge
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
