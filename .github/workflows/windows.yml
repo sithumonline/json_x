@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Build and compile
         run: >
-          cd src && make && cd C:/Program Files (x86)/glfw3 && dir
+          cd C:/Program Files (x86)/glfw3 && dir
       - name: upload artifact
         uses: actions/upload-artifact@v3
         with:
