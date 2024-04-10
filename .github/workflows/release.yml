@@ -106,6 +106,6 @@ jobs:
           ref: web
       - name: Compile HTML
         run: |
-          echo "LINUX-DOWNLOAD-HREF=https://github.com/sithumonline/json_x/releases/download/${{ github.ref }}/json_x_glfw_opengl3-linux-amd64_${{ env.SHA_SHORT }}" >> "$GITHUB_ENV"
-          sed -e "s/linux-download-href/${{ env.LINUX-DOWNLOAD-HREF }}/g" index.html.tmp > index.html
+          export LINUX-DOWNLOAD-HREF=https://github.com/sithumonline/json_x/releases/download/${{ github.ref_name }}/json_x_glfw_opengl3-linux-amd64_${{ env.SHA_SHORT }}
+          sed -e "s/linux-download-href/$LINUX-DOWNLOAD-HREF/g" index.html.tmp > index.html
           cat index.html
