@@ -89,3 +89,18 @@ jobs:
           file: src/json_x_glfw_opengl3-linux-amd64_${{ env.SHA_SHORT }}
           asset_name: json_x_glfw_opengl3-linux-amd64_${{ env.SHA_SHORT }}
           tag: ${{ github.ref }}
+
+  web-build:
+    name: Web page build
+    needs: [release-linux]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout to web branch
+        uses: actions/checkout@v2
+        with:
+          ref: web
+      - name: Compile HTML
+        run: |
+          echo "LINUX-DOWNLOAD-HREF=https://github.com/sithumonline/json_x/releases/download/${{ github.ref }}/json_x_glfw_opengl3-linux-amd64_${{ env.SHA_SHORT }}" >> "$GITHUB_ENV"
+          sed -e "s/linux-download-href/${{ env.LINUX-DOWNLOAD-HREF }}/g" index.html.tmp > index.html
+          cat index.html
