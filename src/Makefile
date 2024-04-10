@@ -30,7 +30,7 @@ endif
 
 EXE = json_x_glfw_opengl3$(PLATFORM)
 
-ifdef sha_short
+ifdef SHA_SHORT
   EXE := $(EXE)_$(SHA_SHORT)
 endif
 
