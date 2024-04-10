@@ -108,7 +108,7 @@ jobs:
 
   web-build:
     name: Web page build
-    needs: [release-linux]
+    needs: [release-linux, release-macos, release-windows]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
