@@ -8,6 +8,8 @@ on:
     #   - main
 
 permissions:
+  pages: write
+  id-token: write
   contents: write
 
 jobs:
