@@ -110,7 +110,7 @@ jobs:
           export LINUX_DOWNLOAD=json_x_glfw_opengl3-linux-amd64_${{ env.SHA_SHORT }}
           mkdir dist
           sed -e "s#linux-download-href#$LINUX_DOWNLOAD_HREF#g" -e "s#linux-download#$LINUX_DOWNLOAD#g" index.html.tmp > dist/index.html
-          cat index.html
+          cat dist/index.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
