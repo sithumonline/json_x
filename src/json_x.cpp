@@ -83,6 +83,8 @@ namespace jsonX
             int current_id = 0;
             std::size_t size;
             std::string jsonFile;
+            int windowWidth;
+            int windowHeight;
         };
 
         void createNode(Node node)
@@ -186,7 +188,8 @@ namespace jsonX
         {
             ImNodes::EditorContextSet(editor.context);
 
-            ImGui::Begin(editor_name);
+            ImGui::SetNextWindowContentSize(ImVec2(editor.windowWidth, editor.windowHeight));
+            ImGui::Begin(editor_name, nullptr, ImGuiWindowFlags_HorizontalScrollbar);
             ImGui::TextUnformatted("Json X");
 
             if (ImGui::Button("Open File Dialog"))
@@ -196,7 +199,13 @@ namespace jsonX
                 ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose File", ".json", config);
             }
 
+            if (editor.windowWidth == 0 && editor.windowHeight == 0)
+            {
+                ImGui::SetWindowSize(editor_name, ImVec2(1000, 600));
+                ImGui::SetWindowPos(editor_name, ImVec2(20, 20));
+            }
             ImNodes::BeginNodeEditor();
+            ImGui::SetNextWindowSize(ImVec2(800, 400));
 
             json ex1 = {
                 {"pi", 3.141},
@@ -244,12 +253,27 @@ namespace jsonX
 
                 std::unordered_map<int, std::pair<int, int>> positions = Layout::layoutTree(edges, "top-to-bottom", 200, 200);
 
+                int max_x = 0;
+                int max_y = 0;
                 for (auto &node : editor.nodes)
                 {
                     auto pos = positions[node.id];
                     node.x = pos.first;
                     node.y = pos.second;
+
+                    if (pos.first > max_x)
+                    {
+                        max_x = pos.first;
+                    }
+
+                    if (pos.second > max_y)
+                    {
+                        max_y = pos.second;
+                    }
                 }
+
+                editor.windowWidth = max_x + 200;
+                editor.windowHeight = max_y + 200;
             }
 
             for (Node &node : editor.nodes)
@@ -297,6 +321,17 @@ namespace jsonX
                         {
                             node.x = currentPos.x;
                             node.y = currentPos.y;
+
+                            // if node pos is greater than the window width and height, update the window width and height
+                            if (node.x > editor.windowWidth)
+                            {
+                                editor.windowWidth = node.x + 200;
+                            }
+
+                            if (node.y > editor.windowHeight)
+                            {
+                                editor.windowHeight = node.y + 200;
+                            }
                         }
                     }
                 }
