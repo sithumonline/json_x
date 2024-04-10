@@ -90,7 +90,6 @@ namespace jsonX
             ImNodes::BeginNode(node.id);
             const ImVec2 grid_pos = ImVec2(node.x, node.y);
             ImNodes::SetNodeGridSpacePos(node.id, grid_pos);
-            // ImNodes::SetNodeEditorSpacePos(node.id, grid_pos);
 
             ImNodes::BeginNodeTitleBar();
             ImGui::TextUnformatted("node");
@@ -283,6 +282,23 @@ namespace jsonX
                         { return link.id == link_id; });
                     assert(iter != editor.links.end());
                     editor.links.erase(iter);
+                }
+            }
+
+            {
+                // loop through the nodes and update the positions
+                for (auto &node : editor.nodes)
+                {
+                    if (ImNodes::IsNodeSelected(node.id))
+                    {
+                        ImVec2 currentPos = ImNodes::GetNodeGridSpacePos(node.id);
+
+                        if (currentPos.x != node.x || currentPos.y != node.y)
+                        {
+                            node.x = currentPos.x;
+                            node.y = currentPos.y;
+                        }
+                    }
                 }
             }
 
