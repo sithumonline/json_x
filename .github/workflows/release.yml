@@ -4,8 +4,8 @@ on:
   push:
     tags:
       - v*
-    branches:
-      - main
+    # branches:
+    #   - main
 
 permissions:
   contents: write
@@ -95,6 +95,11 @@ jobs:
     needs: [release-linux]
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set commit hash
+        run: |
+          echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
       - name: Checkout to web branch
         uses: actions/checkout@v2
         with:
