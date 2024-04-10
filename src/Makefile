@@ -29,6 +29,11 @@ ifeq ($(OS), Windows_NT)
 endif
 
 EXE = json_x_glfw_opengl3$(PLATFORM)
+
+ifdef sha_short
+  EXE := $(EXE)_$(SHA_SHORT)
+endif
+
 IMGUI_DIR = ../imgui
 IMNODES_DIR = ../imnodes
 NOLOHMANN = ../json

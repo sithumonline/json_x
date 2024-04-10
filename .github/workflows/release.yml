@@ -25,15 +25,17 @@ jobs:
             mingw-w64-x86_64-glfw
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Set commit hash
+        uses: |
+          echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
       - name: Build and compile
         run: |
           cd src && make
-          echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: json_x_glfw_opengl3-windows-amd64_${{ env.sha_short }}
-          path: src\json_x_glfw_opengl3-windows-amd64.exe
+          name: json_x_glfw_opengl3-windows-amd64_${{ env.SHA_SHORT }}
+          path: src\json_x_glfw_opengl3-windows-amd64_${{ env.SHA_SHORT }}.exe
 
   release-macos:
     name: Build and release for MacOS
@@ -44,15 +46,17 @@ jobs:
       - name: Install Glfw3
         run: |
           brew install glfw
+      - name: Set commit hash
+        uses: |
+          echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
       - name: Build and compile
         run: |
           cd src && make
-          echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: json_x_glfw_opengl3-macos-arm64_${{ env.sha_short }}
-          path: src/json_x_glfw_opengl3-macos-arm64
+          name: json_x_glfw_opengl3-macos-arm64_${{ env.SHA_SHORT }}
+          path: src/json_x_glfw_opengl3-macos-arm64_${{ env.SHA_SHORT }}
 
   release-linux:
     name: Build and release for Linux
@@ -64,12 +68,14 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install libglfw3-dev
+      - name: Set commit hash
+        uses: |
+          echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
       - name: Build and compile
         run: |
           cd src && make
-          echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: json_x_glfw_opengl3-linux-amd64_${{ env.sha_short }}
-          path: src/json_x_glfw_opengl3-linux-amd64
+          name: json_x_glfw_opengl3-linux-amd64_${{ env.SHA_SHORT }}
+          path: src/json_x_glfw_opengl3-linux-amd64_${{ env.SHA_SHORT }}
