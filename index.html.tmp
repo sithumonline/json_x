@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Json X</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="description" content="" />
+        <link rel="icon" href="favicon.png" />
+    </head>
+    <body>
+        <h1>Json X</h1>
+        <a href="linux-download-href" download="linux-download"
+            >Download for Linux</a
+        >
+        <a href="macos-download-href" download="macos-download"
+            >Download for MacOS</a
+        >
+        <a href="windows-download-href" download="windows-download"
+            >Download for Windows</a
+        >
+    </body>
+</html>
