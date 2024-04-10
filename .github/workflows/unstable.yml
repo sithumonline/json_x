@@ -1,7 +1,6 @@
 name: Unstable Pipeline
 
 on:
-  pull_request:
   push:
     branches:
       - main
@@ -11,16 +10,13 @@ permissions:
   pages: write
   id-token: write
   contents: write
-  pull-requests: write
-
-concurrency:
-  group: preview-pages-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   unstable-linux:
     name: Build and release for Linux
     runs-on: ubuntu-latest
+    outputs:
+      artifact_link: ${{ steps.generate-artifact-link.outputs.artifact_link }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -36,12 +32,14 @@ jobs:
           cd src && make
       - name: Upload artifact
         uses: actions/upload-artifact@v4
+        id: artifact-upload-step
         with:
           name: json_x_glfw_opengl3-linux-amd64_unstable_${{ env.SHA_SHORT }}
           path: src/json_x_glfw_opengl3-linux-amd64_${{ env.SHA_SHORT }}
       - name: Set artifact link
+        id: generate-artifact-link
         run: |
-          echo "::set-output name=artifact_link::${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }}"
+          echo "artifact_link=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }}" >> "$GITHUB_OUTPUT"
 
   web-build:
     name: Web page build
@@ -65,7 +63,12 @@ jobs:
           sed -e "s#linux-download-href#$LINUX_DOWNLOAD_HREF#g" \
               -e "s#linux-download#$LINUX_DOWNLOAD#g" \
               index.html.tmp > dist/index.html
-      - name: Preview Pages
-        uses: rajyan/preview-pages@v1
+      - name: Push generated webpage to another repository
+        uses: nkoppel/push-files-to-another-repository@1.1.0
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          source-dir: dist
+          source-files: "dist/"
+          destination-username: "github-actions[bot]"
+          destination-repository: "json_x_preview"
+          commit-email: "github-actions[bot]@users.noreply.github.com"
