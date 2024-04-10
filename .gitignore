@@ -1,4 +1,4 @@
 .idea
 *.ini
 *.o
-json_x_glfw_opengl3-macos-amd64
+json_x_glfw_opengl3-*
