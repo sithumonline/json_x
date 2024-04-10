@@ -4,8 +4,6 @@ on:
   push:
     tags:
       - v*
-    # branches:
-    #   - main
 
 permissions:
   pages: write
@@ -36,11 +34,6 @@ jobs:
       - name: Build and compile
         run: |
           cd src && make
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: json_x_glfw_opengl3-windows-amd64_${{ env.SHA_SHORT }}
-          path: src\json_x_glfw_opengl3-windows-amd64_${{ env.SHA_SHORT }}.exe
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
@@ -64,11 +57,6 @@ jobs:
       - name: Build and compile
         run: |
           cd src && make
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: json_x_glfw_opengl3-macos-arm64_${{ env.SHA_SHORT }}
-          path: src/json_x_glfw_opengl3-macos-arm64_${{ env.SHA_SHORT }}
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
@@ -93,11 +81,6 @@ jobs:
       - name: Build and compile
         run: |
           cd src && make
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: json_x_glfw_opengl3-linux-amd64_${{ env.SHA_SHORT }}
-          path: src/json_x_glfw_opengl3-linux-amd64_${{ env.SHA_SHORT }}
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:

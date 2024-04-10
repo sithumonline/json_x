@@ -1,0 +1,71 @@
+name: Unstable Pipeline
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - web
+
+permissions:
+  pages: write
+  id-token: write
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: preview-pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unstable-linux:
+    name: Build and release for Linux
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install Glfw3
+        run: |
+          sudo apt-get update
+          sudo apt-get install libglfw3-dev
+      - name: Set commit hash
+        run: |
+          echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+      - name: Build and compile
+        run: |
+          cd src && make
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: json_x_glfw_opengl3-linux-amd64_unstable_${{ env.SHA_SHORT }}
+          path: src/json_x_glfw_opengl3-linux-amd64_${{ env.SHA_SHORT }}
+      - name: Set artifact link
+        run: |
+          echo "::set-output name=artifact_link::${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }}"
+
+  web-build:
+    name: Web page build
+    needs: [unstable-linux]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set commit hash
+        run: |
+          echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+      - name: Checkout to web branch
+        uses: actions/checkout@v2
+        with:
+          ref: web
+      - name: Compile HTML
+        run: |
+          export LINUX_DOWNLOAD_HREF=${{ needs.unstable-linux.outputs.artifact_link }}
+          export LINUX_DOWNLOAD=json_x_glfw_opengl3-linux-amd64_unstable_${{ env.SHA_SHORT }}
+          mkdir dist
+          sed -e "s#linux-download-href#$LINUX_DOWNLOAD_HREF#g" \
+              -e "s#linux-download#$LINUX_DOWNLOAD#g" \
+              index.html.tmp > dist/index.html
+      - name: Preview Pages
+        uses: rajyan/preview-pages@v1
+        with:
+          source-dir: dist
