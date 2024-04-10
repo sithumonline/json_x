@@ -68,8 +68,8 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          source-files: "dist"
-          destination-username: "github-actions[bot]"
-          destination-repository: "json_x_preview"
-          commit-email: "github-actions[bot]@users.noreply.github.com"
-#
+          source-directory: "dist"
+          destination-github-username: "sithumonline"
+          destination-repository-name: "json_x_preview"
+          user-email: "github-actions[bot]@users.noreply.github.com"
+          user-name: "github-actions[bot]"
