@@ -108,7 +108,7 @@ jobs:
         run: |
           export LINUX_DOWNLOAD_HREF=https://github.com/sithumonline/json_x/releases/download/${{ github.ref_name }}/json_x_glfw_opengl3-linux-amd64_${{ env.SHA_SHORT }}
           export LINUX_DOWNLOAD=json_x_glfw_opengl3-linux-amd64_${{ env.SHA_SHORT }}
-          mdkir dist
+          mkdir dist
           sed -e "s#linux-download-href#$LINUX_DOWNLOAD_HREF#g" -e "s#linux-download#$LINUX_DOWNLOAD#g" index.html.tmp > dist/index.html
           cat index.html
       - name: Upload artifact
