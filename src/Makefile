@@ -30,6 +30,7 @@ endif
 
 EXE = json_x_glfw_opengl3$(PLATFORM)
 
+# check SHA_SHORT is defined, if so append to EXE
 ifdef SHA_SHORT
   EXE := $(EXE)_$(SHA_SHORT)
 endif

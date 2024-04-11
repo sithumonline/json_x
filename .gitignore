@@ -2,3 +2,5 @@
 *.ini
 *.o
 json_x_glfw_opengl3-*
+build/
+
