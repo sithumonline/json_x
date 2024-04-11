@@ -13,10 +13,11 @@ elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
     set(PLATFORM "-windows-amd64")
 endif()
 
-set(EXE "json_x_glfw_opengl3${PLATFORM}")
-
-if(DEFINED SHA_SHORT)
-  set(EXE "${EXE}_${SHA_SHORT}")
+set(SHA_SHORT "$ENV{SHA_SHORT}")
+if(SHA_SHORT)
+    set(EXE "json_x_glfw_opengl3${PLATFORM}_${SHA_SHORT}")
+else()
+    set(EXE "json_x_glfw_opengl3${PLATFORM}")
 endif()
 
 include_directories(
