@@ -23,7 +23,8 @@ jobs:
           update: true
           install: >-
             git
-            mingw-w64-cmake
+            make
+            cmake
             mingw-w64-x86_64-gcc
             mingw-w64-x86_64-glfw
       - name: Checkout code
