@@ -35,7 +35,7 @@ jobs:
         id: artifact-upload-step
         with:
           name: json_x_glfw_opengl3-linux-amd64_unstable_${{ env.SHA_SHORT }}
-          path: json_x_glfw_opengl3-linux-amd64_${{ env.SHA_SHORT }}
+          path: build/json_x_glfw_opengl3-linux-amd64_${{ env.SHA_SHORT }}
       - name: Set artifact link
         id: generate-artifact-link
         run: |
