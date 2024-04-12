@@ -28,6 +28,8 @@ jobs:
             mingw-w64-x86_64-gcc
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Install OpenGL
+        uses: openrndr/setup-opengl@v1.1
       - name: Set commit hash
         run: |
           echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
