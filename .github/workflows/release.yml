@@ -36,8 +36,9 @@ jobs:
           echo "SHA_SHORT=$(git rev-parse --short "$env:GITHUB_SHA")" >> "$env:GITHUB_ENV"
       - name: Build and compile
         run: |
-          mkdir build && cd build && cmake .. && cmake --build .
+          mkdir build && cd build && cmake .. && cmake --build . --config Release
           dir
+          dir Release
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
