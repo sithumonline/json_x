@@ -26,6 +26,7 @@ jobs:
             make
             cmake
             mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-glfw
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Set commit hash
