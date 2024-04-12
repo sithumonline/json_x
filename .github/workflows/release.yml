@@ -28,7 +28,7 @@ jobs:
       #       mingw-w64-x86_64-gcc
       - name: Install Glfw3
         run: |
-          choco install mingw make cmake
+          choco install mingw make cmake git
       - name: Checkout code
         uses: actions/checkout@v2
       # - name: Set commit hash
@@ -130,3 +130,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
+##
