@@ -31,9 +31,9 @@ jobs:
           choco install mingw make cmake
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Set commit hash
-        run: |
-          echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+      # - name: Set commit hash
+      #   run: |
+      #     echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
       - name: Build and compile
         run: |
           mkdir build && cd build && cmake .. && make
