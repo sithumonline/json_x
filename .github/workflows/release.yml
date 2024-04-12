@@ -14,18 +14,7 @@ jobs:
   release-windows:
     name: Build and release for Windows
     runs-on: windows-latest
-    # defaults:
-    #   run:
-    #     shell: msys2 {0}
     steps:
-      # - uses: msys2/setup-msys2@v2
-      #   with:
-      #     update: true
-      #     install: >-
-      #       git
-      #       make
-      #       cmake
-      #       mingw-w64-x86_64-gcc
       - name: Install Glfw3
         run: |
           choco install mingw make cmake git
