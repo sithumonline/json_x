@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Install Glfw3
         run: |
-          choco install mingw make cmake git
+          choco install make cmake git
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Set commit hash
