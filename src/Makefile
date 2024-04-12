@@ -11,43 +11,19 @@
 #   pacman -S --noconfirm --needed mingw-w64-x86_64-toolchain mingw-w64-x86_64-glfw
 #
 
-#CXX = zig c++
 #CXX = g++
 #CXX = clang++
 
-UNAME_S := $(shell uname -s)
-
-PLATFORM :=
-ifeq ($(UNAME_S), Linux)
-	PLATFORM = -linux-amd64
-endif
-ifeq ($(UNAME_S), Darwin)
-	PLATFORM = -macos-arm64
-endif
-ifeq ($(OS), Windows_NT)
-	PLATFORM = -windows-amd64
-endif
-
-EXE = json_x_glfw_opengl3$(PLATFORM)
-
-# check SHA_SHORT is defined, if so append to EXE
-ifdef SHA_SHORT
-  EXE := $(EXE)_$(SHA_SHORT)
-endif
-
-IMGUI_DIR = ../imgui
-IMNODES_DIR = ../imnodes
-NOLOHMANN = ../json
-IMGUI_FILE_DIALOG = ../ImGuiFileDialog
+EXE = example_glfw_opengl3
+IMGUI_DIR = ../..
 SOURCES = main.cpp
 SOURCES += $(IMGUI_DIR)/imgui.cpp $(IMGUI_DIR)/imgui_demo.cpp $(IMGUI_DIR)/imgui_draw.cpp $(IMGUI_DIR)/imgui_tables.cpp $(IMGUI_DIR)/imgui_widgets.cpp
 SOURCES += $(IMGUI_DIR)/backends/imgui_impl_glfw.cpp $(IMGUI_DIR)/backends/imgui_impl_opengl3.cpp
-SOURCES += $(IMGUI_FILE_DIALOG)/ImGuiFileDialog.cpp
-SOURCES += $(IMNODES_DIR)/imnodes.cpp $(IMNODES_DIR)/json_x.cpp $(IMNODES_DIR)/json_node.cpp $(IMNODES_DIR)/layout.cpp
 OBJS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
+UNAME_S := $(shell uname -s)
 LINUX_GL_LIBS = -lGL
 
-CXXFLAGS = -std=c++17 -I$(IMGUI_DIR) -I$(IMGUI_DIR)/backends -I$(IMNODES_DIR) -I$(NOLOHMANN) -I$(NOLOHMANN)/nlohmann -I$(NOLOHMANN)/nlohmann/thridparty -I$(IMGUI_FILE_DIALOG)
+CXXFLAGS = -std=c++11 -I$(IMGUI_DIR) -I$(IMGUI_DIR)/backends
 CXXFLAGS += -g -Wall -Wformat
 LIBS =
 
@@ -84,9 +60,9 @@ endif
 
 ifeq ($(OS), Windows_NT)
 	ECHO_MESSAGE = "MinGW"
-	LIBS += -L/mingw64/lib -lglfw3 -lgdi32 -lopengl32 -limm32
+	LIBS += -lglfw3 -lgdi32 -lopengl32 -limm32
 
-	CXXFLAGS += -I/mingw64/include
+	CXXFLAGS += `pkg-config --cflags glfw3`
 	CFLAGS = $(CXXFLAGS)
 endif
 
@@ -101,12 +77,6 @@ endif
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 %.o:$(IMGUI_DIR)/backends/%.cpp
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
-
-%.o:$(IMNODES_DIR)/%.cpp
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
-
-%.o:$(IMGUI_FILE_DIALOG)/%.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 all: $(EXE)

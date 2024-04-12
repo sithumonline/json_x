@@ -5,20 +5,14 @@ project(json_x_glfw_opengl3)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-    set(PLATFORM "-linux-amd64")
-elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
-    set(PLATFORM "-macos-arm64")
-elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
-    set(PLATFORM "-windows-amd64")
-endif()
+find_package(OpenGL REQUIRED)
 
-set(SHA_SHORT "$ENV{SHA_SHORT}")
-if(SHA_SHORT)
-    set(EXE "json_x_glfw_opengl3${PLATFORM}_${SHA_SHORT}")
-else()
-    set(EXE "json_x_glfw_opengl3${PLATFORM}")
-endif()
+include_directories(${OPENGL_INCLUDE_DIRS})
+
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "GLFW lib only")
+set(GLFW_INSTALL OFF CACHE BOOL "GLFW lib only")
+
+add_subdirectory(glfw)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/imgui
@@ -37,27 +31,28 @@ file(GLOB_RECURSE SOURCES
     ImGuiFileDialog/*.cpp
     imnodes/*.cpp
 )
-    
+
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-    find_package(PkgConfig REQUIRED)
-    pkg_search_module(GLFW REQUIRED glfw3)
-    include_directories(${GLFW_INCLUDE_DIRS})
-    link_directories(${GLFW_LIBRARY_DIRS})
-    add_definitions(${GLFW_CFLAGS_OTHER})
-    set(LIBS ${GLFW_LIBRARIES} -lGL)
+    set(PLATFORM "-linux-amd64")
+    set(LIBS ${OPENGL_LIBRARIES})
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
-    find_library(GLFW_LIBRARY NAMES glfw)
-    find_library(OPENGL_LIBRARY OpenGL)
-    find_library(COCOA_LIBRARY Cocoa)
-    find_library(IOKIT_LIBRARY IOKit)
-    find_library(COREVIDEO_LIBRARY CoreVideo)
-    include_directories(/usr/local/include /opt/local/include /opt/homebrew/include)
-    link_directories(/usr/local/lib /opt/local/lib /opt/homebrew/lib)
-    set(LIBS ${GLFW_LIBRARY} ${OPENGL_LIBRARY} ${COCOA_LIBRARY} ${IOKIT_LIBRARY} ${COREVIDEO_LIBRARY})
+    set(PLATFORM "-macos-arm64")
+    set(LIBS ${OPENGL_LIBRARIES})
 elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
-    find_package(glfw3 REQUIRED)
-    set(LIBS glfw3 gdi32 opengl32 imm32 /mingw64/lib)
+    set(PLATFORM "-windows-amd64")
+    set(LIBS gdi32 opengl32 imm32)
+endif()
+
+set(SHA_SHORT "$ENV{SHA_SHORT}")
+if(SHA_SHORT)
+    set(EXE "json_x_glfw_opengl3${PLATFORM}_${SHA_SHORT}")
+else()
+    set(EXE "json_x_glfw_opengl3${PLATFORM}")
 endif()
 
 add_executable(${EXE} ${SOURCES})
-target_link_libraries(${EXE} ${LIBS})
+target_link_libraries(${EXE} glfw ${LIBS})
+
+if(MINGW)
+    set_target_properties(${EXE} PROPERTIES LINK_FLAGS "-static-libgcc -static-libstdc++")
+endif()

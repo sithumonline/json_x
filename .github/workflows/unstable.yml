@@ -20,10 +20,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Install Glfw3
-        run: |
-          sudo apt-get update
-          sudo apt-get install libglfw3-dev
+      # - name: Install Glfw3
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install libglfw3-dev
       - name: Set commit hash
         run: |
           echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
