@@ -26,11 +26,11 @@ jobs:
             make
             cmake
             mingw-w64-x86_64-gcc
-            find /c/ -name "*opengl*"
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Set commit hash
         run: |
+          find /c/ -name "*opengl*"
           echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
       - name: Build and compile
         run: |
