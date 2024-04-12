@@ -5,7 +5,7 @@ project(json_x_glfw_opengl3)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-#find_package(OpenGL REQUIRED)
+find_package(OpenGL REQUIRED)
 
 include_directories(${OPENGL_INCLUDE_DIRS})
 
