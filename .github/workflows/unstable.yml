@@ -23,7 +23,7 @@ jobs:
       - name: Install Glfw3
         run: |
           sudo apt-get update
-          sudo apt-get install libegl1-mesa-dev libwayland-dev
+          sudo apt-get install libegl1-mesa-dev libwayland-dev libxkbcommon-dev
       - name: Set commit hash
         run: |
           echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
