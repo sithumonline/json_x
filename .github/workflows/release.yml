@@ -28,7 +28,7 @@ jobs:
       #       mingw-w64-x86_64-gcc
       - name: Install Glfw3
         uses: |
-          choco install mingw make cmake
+          choco install mingw make cmake git
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Set commit hash
