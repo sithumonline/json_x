@@ -27,7 +27,7 @@ jobs:
       #       cmake
       #       mingw-w64-x86_64-gcc
       - name: Install Glfw3
-        uses: |
+        run: |
           choco install mingw make cmake
       - name: Checkout code
         uses: actions/checkout@v2
