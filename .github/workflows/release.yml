@@ -30,7 +30,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: Release/json_x_glfw_opengl3-windows-amd64_${{ env.SHA_SHORT }}.exe
+          file: build/Release/json_x_glfw_opengl3-windows-amd64_${{ env.SHA_SHORT }}.exe
           asset_name: json_x_glfw_opengl3-windows-amd64_${{ env.SHA_SHORT }}.exe
           tag: ${{ github.ref }}
 
