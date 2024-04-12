@@ -37,67 +37,64 @@ jobs:
       - name: Build and compile
         run: |
           mkdir build && cd build && cmake .. && cmake --build . --config Release
-          dir
-          dir Release
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/json_x_glfw_opengl3-windows-amd64_${{ env.SHA_SHORT }}.exe
+          file: Release/json_x_glfw_opengl3-windows-amd64_${{ env.SHA_SHORT }}.exe
           asset_name: json_x_glfw_opengl3-windows-amd64_${{ env.SHA_SHORT }}.exe
           tag: ${{ github.ref }}
 
-  # release-macos:
-  #   name: Build and release for MacOS
-  #   runs-on: macos-14
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v2
-  #     - name: Install Glfw3
-  #       run: |
-  #         brew install cmake
-  #     - name: Set commit hash
-  #       run: |
-  #         echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
-  #     - name: Build and compile
-  #       run: |
-  #         mkdir build && cd build && cmake .. && make
-  #     - name: Upload binaries to release
-  #       uses: svenstaro/upload-release-action@v2
-  #       with:
-  #         repo_token: ${{ secrets.GITHUB_TOKEN }}
-  #         file: build/json_x_glfw_opengl3-macos-arm64_${{ env.SHA_SHORT }}
-  #         asset_name: json_x_glfw_opengl3-macos-arm64_${{ env.SHA_SHORT }}
-  #         tag: ${{ github.ref }}
+  release-macos:
+    name: Build and release for MacOS
+    runs-on: macos-14
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install Glfw3
+        run: |
+          brew install cmake
+      - name: Set commit hash
+        run: |
+          echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+      - name: Build and compile
+        run: |
+          mkdir build && cd build && cmake .. && make
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/json_x_glfw_opengl3-macos-arm64_${{ env.SHA_SHORT }}
+          asset_name: json_x_glfw_opengl3-macos-arm64_${{ env.SHA_SHORT }}
+          tag: ${{ github.ref }}
 
-  # release-linux:
-  #   name: Build and release for Linux
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v2
-  #     - name: Install Glfw3
-  #       run: |
-  #         sudo apt-get update
-  #         sudo apt-get install libegl1-mesa-dev libwayland-dev libxkbcommon-dev xorg-dev
-  #     - name: Set commit hash
-  #       run: |
-  #         echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
-  #     - name: Build and compile
-  #       run: |
-  #         mkdir build && cd build && cmake .. && make
-  #     - name: Upload binaries to release
-  #       uses: svenstaro/upload-release-action@v2
-  #       with:
-  #         repo_token: ${{ secrets.GITHUB_TOKEN }}
-  #         file: build/json_x_glfw_opengl3-linux-amd64_${{ env.SHA_SHORT }}
-  #         asset_name: json_x_glfw_opengl3-linux-amd64_${{ env.SHA_SHORT }}
-  #         tag: ${{ github.ref }}
+  release-linux:
+    name: Build and release for Linux
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install Glfw3
+        run: |
+          sudo apt-get update
+          sudo apt-get install libegl1-mesa-dev libwayland-dev libxkbcommon-dev xorg-dev
+      - name: Set commit hash
+        run: |
+          echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+      - name: Build and compile
+        run: |
+          mkdir build && cd build && cmake .. && make
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/json_x_glfw_opengl3-linux-amd64_${{ env.SHA_SHORT }}
+          asset_name: json_x_glfw_opengl3-linux-amd64_${{ env.SHA_SHORT }}
+          tag: ${{ github.ref }}
 
   web-build:
     name: Web page build
-    # needs: [release-linux, release-macos, release-windows]
-    needs: [release-windows]
+    needs: [release-linux, release-macos, release-windows]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
