@@ -69,7 +69,7 @@ jobs:
           export LINUX_DOWNLOAD=json_x_glfw_opengl3-linux-amd64_unstable_${{ needs.unstable-linux.outputs.sha_short }}
           sed -e "s#linux-download-href#$LINUX_DOWNLOAD_HREF#g" \
               -e "s#linux-download#$LINUX_DOWNLOAD#g" \
-              index.html
+              index.html > index.html
       - name: Build Project Artifacts
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
