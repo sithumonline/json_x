@@ -64,16 +64,15 @@ jobs:
         run: |
           export LINUX_DOWNLOAD_HREF=${{ needs.unstable-linux.outputs.artifact_link }}
           export LINUX_DOWNLOAD=json_x_glfw_opengl3-linux-amd64_unstable_${{ env.SHA_SHORT }}
-          mkdir dist
           sed -e "s#linux-download-href#$LINUX_DOWNLOAD_HREF#g" \
               -e "s#linux-download#$LINUX_DOWNLOAD#g" \
-              index.html.tmp > dist/index.html
+              index.html
       - name: Push generated webpage to another repository
         uses: cpina/github-action-push-to-another-repository@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          source-directory: "dist"
+          source-directory: "."
           destination-github-username: "sithumonline"
           destination-repository-name: "json_x_preview"
           user-email: "github-actions[bot]@users.noreply.github.com"
