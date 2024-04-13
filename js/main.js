@@ -2,6 +2,7 @@ const elts = {
   text1: document.getElementById("text1"),
   text2: document.getElementById("text2"),
   textContainer: document.getElementById("container"),
+  copyrightYear: document.getElementById("copyright-year"),
 };
 
 const texts = [
@@ -17,6 +18,8 @@ let textIndex = texts.length - 1;
 let time = new Date();
 let morph = 0;
 let cooldown = cooldownTime;
+
+elts.copyrightYear.textContent = new Date().getFullYear();
 
 elts.text1.textContent = texts[textIndex % texts.length].word;
 elts.text2.textContent = texts[(textIndex + 1) % texts.length].word;
