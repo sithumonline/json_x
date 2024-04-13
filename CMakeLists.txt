@@ -52,7 +52,3 @@ endif()
 
 add_executable(${EXE} ${SOURCES})
 target_link_libraries(${EXE} glfw ${LIBS})
-
-if(MINGW)
-    set_target_properties(${EXE} PROPERTIES LINK_FLAGS "-static-libgcc -static-libstdc++")
-endif()
