@@ -14,12 +14,6 @@ body {
 }
 
 #container {
-    /* position: absolute;
-    margin: auto;
-    height: 80pt;
-    top: 0;
-    bottom: 0;
-    width: 100vw; */
     transition: width 1s ease;
     height: 70pt;
     display: flex;
@@ -29,7 +23,7 @@ body {
 }
 
 #hero-sect{
-    padding: 50px 0 40px 0;
+    padding: 100px 0;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;

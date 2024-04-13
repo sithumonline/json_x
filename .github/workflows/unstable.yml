@@ -1,5 +1,9 @@
 name: Unstable Pipeline
 
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
 on:
   push:
     branches:
@@ -55,20 +59,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
       - name: Compile HTML
         run: |
           export LINUX_DOWNLOAD_HREF=${{ needs.unstable-linux.outputs.artifact_link }}
           export LINUX_DOWNLOAD=json_x_glfw_opengl3-linux-amd64_unstable_${{ needs.unstable-linux.outputs.sha_short }}
           sed -e "s#linux-download-href#$LINUX_DOWNLOAD_HREF#g" \
               -e "s#linux-download#$LINUX_DOWNLOAD#g" \
-              index.html
-      - name: Push generated webpage to another repository
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-        with:
-          source-directory: "."
-          destination-github-username: "sithumonline"
-          destination-repository-name: "json_x_preview"
-          user-email: "${{ needs.unstable-linux.outputs.sha_short }}+github-actions[bot]@users.noreply.github.com"
-          user-name: "${{ needs.unstable-linux.outputs.sha_short }}+github-actions[bot]"
+              index.html > temp.html
+          mv temp.html index.html
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
