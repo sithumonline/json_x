@@ -1,5 +1,9 @@
 name: Unstable Pipeline
 
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
 on:
   push:
     branches:
@@ -55,6 +59,10 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: web
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
       - name: Compile HTML
         run: |
           export LINUX_DOWNLOAD_HREF=${{ needs.unstable-linux.outputs.artifact_link }}
@@ -62,13 +70,17 @@ jobs:
           sed -e "s#linux-download-href#$LINUX_DOWNLOAD_HREF#g" \
               -e "s#linux-download#$LINUX_DOWNLOAD#g" \
               index.html
-      - name: Push generated webpage to another repository
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
-        with:
-          source-directory: "."
-          destination-github-username: "sithumonline"
-          destination-repository-name: "json_x_preview"
-          user-email: "github-actions[bot]@users.noreply.github.com"
-          user-name: "github-actions[bot]"
+      # - name: Push generated webpage to another repository
+      #   uses: cpina/github-action-push-to-another-repository@main
+      #   env:
+      #     SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
+      #   with:
+      #     source-directory: "."
+      #     destination-github-username: "sithumonline"
+      #     destination-repository-name: "json_x_preview"
+      #     user-email: "github-actions[bot]@users.noreply.github.com"
+      #     user-name: "github-actions[bot]"
+      - name: Build Project Artifacts
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
