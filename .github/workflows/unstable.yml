@@ -70,17 +70,7 @@ jobs:
           sed -e "s#linux-download-href#$LINUX_DOWNLOAD_HREF#g" \
               -e "s#linux-download#$LINUX_DOWNLOAD#g" \
               index.html
-      # - name: Push generated webpage to another repository
-      #   uses: cpina/github-action-push-to-another-repository@main
-      #   env:
-      #     SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
-      #   with:
-      #     source-directory: "."
-      #     destination-github-username: "sithumonline"
-      #     destination-repository-name: "json_x_preview"
-      #     user-email: "github-actions[bot]@users.noreply.github.com"
-      #     user-name: "github-actions[bot]"
       - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
