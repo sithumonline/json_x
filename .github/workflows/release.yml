@@ -103,18 +103,17 @@ jobs:
           export MACOS_DOWNLOAD=json_x_glfw_opengl3-macos-arm64_${{ env.SHA_SHORT }}
           export WINDOWS_DOWNLOAD_HREF=https://github.com/sithumonline/json_x/releases/download/${{ github.ref_name }}/json_x_glfw_opengl3-windows-amd64_${{ env.SHA_SHORT }}.exe
           export WINDOWS_DOWNLOAD=json_x_glfw_opengl3-windows-amd64_${{ env.SHA_SHORT }}
-          mkdir dist
           sed -e "s#linux-download-href#$LINUX_DOWNLOAD_HREF#g" \
               -e "s#linux-download#$LINUX_DOWNLOAD#g" \
               -e "s#macos-download-href#$MACOS_DOWNLOAD_HREF#g" \
               -e "s#macos-download#$MACOS_DOWNLOAD#g" \
               -e "s#windows-download-href#$WINDOWS_DOWNLOAD_HREF#g" \
               -e "s#windows-download#$WINDOWS_DOWNLOAD#g" \
-              index.html.tmp > dist/index.html
+              index.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: "./dist"
+          path: "."
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
