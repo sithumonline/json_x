@@ -19,7 +19,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
-    filter: url(#threshold) blur(0.6px);
+    filter: url(#threshold) blur(0px);
 }
 
 #hero-sect{
