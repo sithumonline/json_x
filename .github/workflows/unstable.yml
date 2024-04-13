@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       artifact_link: ${{ steps.generate-artifact-link.outputs.artifact_link }}
+      sha_short: ${{ steps.generate-artifact-link.outputs.sha_short }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
