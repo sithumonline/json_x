@@ -59,7 +59,7 @@ jobs:
       - name: Checkout to web branch
         uses: actions/checkout@v2
         with:
-          ref: web
+          ref: development/web
       - name: Compile HTML
         run: |
           export LINUX_DOWNLOAD_HREF=${{ needs.unstable-linux.outputs.artifact_link }}
