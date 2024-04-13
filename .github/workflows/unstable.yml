@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+      - development/web
+  pull_request:
+    branches:
       - web
 
 permissions:
