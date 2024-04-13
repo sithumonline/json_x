@@ -65,8 +65,10 @@ jobs:
       - name: Push generated webpage to another repository
         uses: cpina/github-action-push-to-another-repository@main
         env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
         with:
           source-directory: "."
           destination-github-username: "sithumonline"
-          destination-repository-name: "cdn"
+          destination-repository-name: "json_x_preview"
+          user-email: "github-actions[bot]@users.noreply.github.com"
+          user-name: "github-actions[bot]"
