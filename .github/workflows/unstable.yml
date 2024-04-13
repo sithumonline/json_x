@@ -1,0 +1,80 @@
+name: Unstable Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - development/web
+  pull_request:
+    branches:
+      - web
+
+permissions:
+  pages: write
+  id-token: write
+  contents: write
+
+jobs:
+  unstable-linux:
+    name: Build and release for Linux
+    runs-on: ubuntu-latest
+    outputs:
+      artifact_link: ${{ steps.generate-artifact-link.outputs.artifact_link }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: main
+      - name: Install Glfw3
+        run: |
+          sudo apt-get update
+          sudo apt-get install libegl1-mesa-dev libwayland-dev libxkbcommon-dev xorg-dev
+      - name: Set commit hash
+        run: |
+          echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+      - name: Build and compile
+        run: |
+          mkdir build && cd build && cmake .. && make
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        id: artifact-upload-step
+        with:
+          name: json_x_glfw_opengl3-linux-amd64_unstable_${{ env.SHA_SHORT }}
+          path: build/json_x_glfw_opengl3-linux-amd64_${{ env.SHA_SHORT }}
+      - name: Set artifact link
+        id: generate-artifact-link
+        run: |
+          echo "artifact_link=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }}" >> "$GITHUB_OUTPUT"
+
+  web-build:
+    name: Web page build
+    needs: [unstable-linux]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set commit hash
+        run: |
+          echo "SHA_SHORT=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+      - name: Checkout to web branch
+        uses: actions/checkout@v2
+        with:
+          ref: development/web
+      - name: Compile HTML
+        run: |
+          export LINUX_DOWNLOAD_HREF=${{ needs.unstable-linux.outputs.artifact_link }}
+          export LINUX_DOWNLOAD=json_x_glfw_opengl3-linux-amd64_unstable_${{ env.SHA_SHORT }}
+          mkdir dist
+          sed -e "s#linux-download-href#$LINUX_DOWNLOAD_HREF#g" \
+              -e "s#linux-download#$LINUX_DOWNLOAD#g" \
+              index.html.tmp > dist/index.html
+      - name: Push generated webpage to another repository
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: "dist"
+          destination-github-username: "sithumonline"
+          destination-repository-name: "json_x_preview"
+          user-email: "github-actions[bot]@users.noreply.github.com"
+          user-name: "github-actions[bot]"
