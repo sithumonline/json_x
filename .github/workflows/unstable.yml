@@ -70,5 +70,5 @@ jobs:
           source-directory: "."
           destination-github-username: "sithumonline"
           destination-repository-name: "json_x_preview"
-          user-email: "${{ needs.unstable-linux.outputs.sha_short }}+github-actions[bot]@users.noreply.github.com"
-          user-name: "${{ needs.unstable-linux.outputs.sha_short }}+github-actions[bot]"
+          user-email: "github-${{ needs.unstable-linux.outputs.sha_short }}-actions[bot]@users.noreply.github.com"
+          user-name: "github-${{ needs.unstable-linux.outputs.sha_short }}-actions[bot]"
