@@ -69,4 +69,4 @@ jobs:
         with:
           source-directory: "."
           destination-github-username: "sithumonline"
-          destination-repository-name: "json_x_preview"
+          destination-repository-name: "cdn"
