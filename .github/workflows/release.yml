@@ -109,7 +109,8 @@ jobs:
               -e "s#macos-download#$MACOS_DOWNLOAD#g" \
               -e "s#windows-download-href#$WINDOWS_DOWNLOAD_HREF#g" \
               -e "s#windows-download#$WINDOWS_DOWNLOAD#g" \
-              index.html
+              index.html > temp.html
+          mv temp.html index.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
