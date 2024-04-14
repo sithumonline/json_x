@@ -19,7 +19,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
-    filter: url(#threshold) blur(0.6px);
+    filter: url(#threshold) blur(0px);
 }
 
 #hero-sect{
@@ -62,6 +62,11 @@ p.hero-text {
     display: inline-block;
 }
 
+.custom-links{
+    text-decoration: none;
+    color: inherit;
+}
+
 @media (max-width: 650px) {
     #hero{
         display: flex;
@@ -69,3 +74,4 @@ p.hero-text {
         align-items: center;
     }
   }
+  

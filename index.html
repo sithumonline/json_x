@@ -4,7 +4,16 @@
     <meta charset="UTF-8" />
     <title>Json X</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="description" content="" />
+    <meta
+      name="description"
+      content="A tool to visualize, format and parse large, complex JSON objects with ease."
+    />
+    <meta
+      property="og:title"
+      content="JSON X - Visualize, Parse and Format JSON"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://sithum.online/json_x/" />
     <link rel="icon" href="favicon.png" />
     <link rel="stylesheet" href="css/style.css" />
     <link href="css/bootstrap.min.css" rel="stylesheet" />
@@ -13,7 +22,10 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
       <div class="container-fluid">
         <a class="navbar-brand" href="#"
-          ><img id="nav-logo" src="images/jsonx.svg"
+          ><img
+            id="nav-logo"
+            src="images/jsonx.svg"
+            alt="JSON visualizer, parser and formatter."
         /></a>
         <button
           class="navbar-toggler"
@@ -72,7 +84,10 @@
         </defs>
       </svg>
       <p>with</p>
-      <img src="images/jsonx.svg" />
+      <img
+        src="images/jsonx.svg"
+        alt="JSON visualizer, parser and formatter."
+      />
     </section>
     <section id="features" class="container px-4">
       <div class="row row-cols-1 row-cols-md-2 align-items-md-center g-5 pt-5">
@@ -81,7 +96,7 @@
             Explore tools built to make working with JSON easier
           </h2>
           <p class="text-body-secondary">
-            A C++ library to make manipulating JSON a breeze.
+            Analyse or organize - make manipulating complex JSON a breeze.
           </p>
           <a href="#download" class="btn btn-primary btn-lg">Download</a>
         </div>
@@ -89,26 +104,34 @@
         <div class="col">
           <div class="row row-cols-1 row-cols-sm-2 g-4">
             <div class="col d-flex flex-column gap-2">
-              <h4 class="fw-semibold mb-0 text-body-indigo">Visualizer</h4>
+              <h4 class="fw-semibold mb-0 text-primary">Visualizer</h4>
+
               <p class="text-body-secondary">
                 View a JSON object with its nested properties as a graph.
               </p>
             </div>
 
             <div class="col d-flex flex-column gap-2">
-              <h4 class="fw-semibold mb-0 text-body-indigo">Formatter</h4>
+              <div class="d-flex gap-2 align-items-center">
+                <h4 class="fw-semibold mb-0 text-primary">Formatter</h4>
+                <span class="badge rounded-pill outline-secondnary"
+                  >Coming Soon</span
+                >
+              </div>
               <p class="text-body-secondary">
-                Explain in a short paragraph lorem ipsum lorem ipsum lorem
-                ipsum.
+                Untangle a JSON object into a comprehensible layout.
               </p>
             </div>
 
             <div class="col d-flex flex-column gap-2">
-              <h4 class="fw-semibold mb-0 text-body-indigo">Parser</h4>
-              <p class="text-body-secondary">
-                Explain in a short paragraph lorem ipsum lorem ipsum lorem
-                ipsum.
-              </p>
+              <div class="d-flex gap-2 align-items-center">
+                <h4 class="fw-semibold mb-0 text-primary">Parser</h4>
+                <span class="badge rounded-pill outline-secondnary"
+                  >Coming Soon</span
+                >
+              </div>
+
+              <p class="text-body-secondary">Convert a string into JSON.</p>
             </div>
           </div>
         </div>
@@ -129,16 +152,16 @@
               >Download for Linux</a
             >
             <a
-              href="macos-download-href"
-              download="macos-download"
-              class="btn btn-special-primary my-2"
-              >Download for MacOS</a
-            >
-            <a
               href="windows-download-href"
               download="windows-download"
               class="btn btn-special-primary my-2"
               >Download for Windows</a
+            >
+            <a
+              href="macos-download-href"
+              download="macos-download"
+              class="btn btn-special-primary my-2"
+              >Download for MacOS</a
             >
           </p>
         </div>
@@ -148,9 +171,24 @@
       <footer
         class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
       >
-        <p class="col-md-4 mb-0 text-body-secondary">
-          &copy; <span id="copyright-year"></span> Sithum
-        </p>
+        <div class="col-md-4 d-flex flex-column">
+          <p class="mb-0 text-body-secondary">
+            <a
+              href="https://sithum.online/"
+              class="custom-links"
+              target="_blank"
+              >&copy; <span id="copyright-year"></span> Sithum</a
+            >
+          </p>
+          <p class="mb-0 text-body-tertiary">
+            <a
+              href="https://github.com/methminug"
+              class="custom-links"
+              target="_blank"
+              >Website by methminug</a
+            >
+          </p>
+        </div>
 
         <ul class="nav col-md-4 justify-content-end">
           <li class="nav-item">
@@ -159,7 +197,12 @@
               target="_blank"
               class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
             >
-              <img src="images/github-icon.svg" width="32" height="32" />
+              <img
+                src="images/github-icon.svg"
+                width="32"
+                height="32"
+                alt="GitHub repository for JSON visualizer, parser and formatter."
+              />
             </a>
           </li>
         </ul>
