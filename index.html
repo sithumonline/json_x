@@ -12,9 +12,14 @@
       property="og:title"
       content="JSON X - Visualize, Parse and Format JSON"
     />
-    <meta property="og:type" content="website" />
     <meta property="og:url" content="http://sithum.online/json_x/" />
-    <link rel="icon" href="favicon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://i.postimg.cc/0j4kzL6L/banner.png" />
+    <meta property="twitter:image:src" content="https://i.postimg.cc/0j4kzL6L/banner.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="stylesheet" href="css/style.css" />
     <link href="css/bootstrap.min.css" rel="stylesheet" />
   </head>
@@ -24,7 +29,7 @@
         <a class="navbar-brand" href="#"
           ><img
             id="nav-logo"
-            src="images/jsonx.svg"
+            src="images/jsonx.webp"
             alt="JSON visualizer, parser and formatter."
         /></a>
         <button
@@ -46,7 +51,7 @@
             <li class="nav-item">
               <a
                 class="nav-link"
-                href="https://github.com/sithumonline/json_x"
+                href="https://github.com/sithumonline/json_x?tab=readme-ov-file#json-x"
                 target="_blank"
                 >Docs</a
               >
@@ -85,8 +90,9 @@
       </svg>
       <p>with</p>
       <img
-        src="images/jsonx.svg"
+        src="images/jsonx.webp"
         alt="JSON visualizer, parser and formatter."
+        width="300"
       />
     </section>
     <section id="features" class="container px-4">
@@ -137,6 +143,62 @@
         </div>
       </div>
     </section>
+    <section id="screenshots" class="container col-xxl-8 px-4 pt-5">
+      <div class="row flex-lg-row align-items-center g-5 pt-5">
+        <div class="col-12 col-sm-12 col-lg-6" style="cursor: pointer">
+          <img
+            src="images/visualizer_screenshot.png"
+            class="d-block mx-lg-auto img-fluid"
+            alt="Screenshot of JSONX Visualizer in action"
+            width="700"
+            height="500"
+            loading="lazy"
+            data-bs-toggle="modal"
+            data-bs-target="#visualizerModal"
+          />
+        </div>
+        <div class="col-lg-6">
+          <h2 class="fw-bold text-body-emphasis mb-3">
+            Visualize anything. Anywhere.
+          </h2>
+          <p class="text-body-secondary">
+            A cross platform solution to unravel JSON structures into intuitive
+            graphs to see the connections between properties crystal clear.
+            Navigate with ease, simplify your workflow and spend less time
+            wrestling with complex data!
+          </p>
+        </div>
+      </div>
+    </section>
+    <div
+      class="modal fade"
+      id="visualizerModal"
+      tabindex="-1"
+      aria-labelledby="visualizerModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Json X Visualizer</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <img
+              src="images/visualizer_screenshot.png"
+              class="d-block mx-lg-auto img-fluid"
+              alt="Screenshot of JSONX Visualizer in action"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
     <section id="download" class="py-5 my-5 text-center container">
       <div class="row py-lg-5">
         <div class="col-lg-10 col-md-4 mx-auto">
@@ -162,6 +224,15 @@
               download="macos-download"
               class="btn btn-special-primary my-2"
               >Download for MacOS</a
+            >
+          </p>
+          <p class="text-body-secondary fst-italic">
+            Got a question or a suggestion?
+            <a
+              href="https://github.com/sithumonline/json_x/issues"
+              target="_blank"
+              class="custom-links"
+              ><span class="text-decoration-underline">Open an issue</span></a
             >
           </p>
         </div>
