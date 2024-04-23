@@ -16,7 +16,7 @@ Json X is a cross-platform desktop application for JSON manipulation written in 
 ## Installation
 
 Download the latest release from the [releases page](https://github.com/sithumonline/json_x/releases) or 
-[jsone_x](https://sithum.online/json_x/#download) and run the executable.
+[json_x](https://sithum.online/json_x/#download) and run the executable.
 
 ## Usage
 
