@@ -5,7 +5,7 @@ import "./App.css";
 
 import ELK from "elkjs/lib/elk.bundled.js";
 import "litegraph.js/css/litegraph.css";
-import LiteGraph from "litegraph.js";
+import { LGraph, LGraphCanvas, LiteGraph, LGraphNode } from "litegraph.js";
 
 const json_data = {
   squadName: "Super hero squad",
@@ -237,74 +237,15 @@ const elkOptions = {
   "elk.edgeRouting": "SPLINES",
 };
 
-function normalNode() {
-  this.addOutput("value", "");
-  this.addInput("value", "");
-  this.addProperty("value", "");
-  this.widget = this.addWidget("text", "", "", "value");
-  this.widgets_up = true;
-  console.log("this.widget-normal", this);
-}
-
-normalNode.title = "Value";
-
-normalNode.prototype.setValue = function (value) {
-  this.setProperty("value", value);
-};
-
-function normalNodeObject() {
-  this.addOutput("value", "");
-  this.addInput("value", "");
-  this.addProperty("value", { property: "" });
-  // this.name_widget = this.addWidget(
-  //   "text",
-  //   "prop.",
-  //   this.properties.value,
-  //   "value"
-  // );
-
-  const inputEl = document.createElement("textarea");
-  inputEl.className = "comfy-multiline-input";
-  inputEl.value = "kdkdkdskdmxkmkdodcdkdmmx";
-  inputEl.placeholder = "skdskdkjfdkjdkjdkkdkd";
-
-  // const widget = this.addCustomWidget("d-name", "customtext", inputEl, {
-  //   getValue() {
-  //     return inputEl.value;
-  //   },
-  //   setValue(v) {
-  //     inputEl.value = v;
-  //   },
-  // });
-  // widget.inputEl = inputEl;
-
-  // inputEl.className = "comfy-multiline-input";
-  // inputEl.value = "opts.defaultVal";
-  // inputEl.placeholder = "opts.placeholder";
-
-  // const element = inputEl;
-
-  this.addCustomWidget({
-    type: "d-name",
-    name: "customtext",
-    get value() {
-      return inputEl.value;
-    },
-    set value(v) {
-      inputEl.value = v;
-    },
-    element: inputEl,
-    options: {},
+LGraphNode.prototype.addDOMWidget = function (name, type, element, options) {
+  options = { hideOnZoom: true, selectOn: ["focus", "click"], ...options };
+  const widget = {
+    type: type,
+    name: name,
+    element: element,
+    options: options,
     draw: function (ctx, node, widgetWidth, y, widgetHeight) {
-      // console.log("draw", ctx, node, widgetWidth, y, widgetHeight);
-      ctx.fillStyle = "#AAA";
-      ctx.fillRect(0, y, widgetWidth, widgetHeight);
-      ctx.fillStyle = "#000";
-      ctx.fillText("customtext", 0, y + 10);
-
-      // console.log("context", ctx, "node", node, "widgetWidth", widgetWidth);
-
-      Object.assign(inputEl.style, {
+      Object.assign(element.style, {
         position: "absolute",
         left: "0px",
         top: y + "px",
@@ -317,16 +258,74 @@ function normalNodeObject() {
         zIndex: 1,
       });
     },
-    value: "jdjdjdjdj\nsiwen\ncndej\ndjnendndn",
+    get value() {
+      return options.getValue?.() ?? undefined;
+    },
+    set value(v) {
+      options.setValue?.(v);
+      widget.callback?.(widget.value);
+    },
+  };
+
+  this.addCustomWidget(widget);
+
+  const collapse = this.collapse;
+  this.collapse = function () {
+    collapse.apply(this, arguments);
+    if (this.flags?.collapsed) {
+      element.hidden = true;
+      element.style.display = "none";
+    }
+  };
+
+  const onRemoved = this.onRemoved;
+  this.onRemoved = function () {
+    element.remove();
+    elementWidgets.delete(this);
+    onRemoved?.apply(this, arguments);
+  };
+
+  return widget;
+};
+
+function normalNode() {
+  this.addOutput("value", "");
+  this.addInput("value", "");
+  this.addProperty("value", "");
+  this.widget = this.addWidget("text", "", "", "value");
+  this.widgets_up = true;
+}
+
+normalNode.title = "Value";
+
+normalNode.prototype.setValue = function (value) {
+  this.setProperty("value", value);
+};
+
+function normalNodeObject() {
+  this.addOutput("value", "");
+  this.addInput("value", "");
+  this.addProperty("value", { property: "" });
+
+  const inputEl = document.createElement("textarea");
+  inputEl.className = "comfy-multiline-input";
+  inputEl.value = "kdkdkdskdmxkmkdodcdkdmmx";
+  inputEl.placeholder = "skdskdkjfdkjdkjdkkdkd";
+
+  this.widget = this.addDOMWidget("d-name", "customtext", inputEl, {
+    getValue() {
+      return inputEl.value;
+    },
+    setValue(v) {
+      inputEl.value = v;
+    },
   });
 
-  // this.widget.inputEl = inputEl;
+  this.widget.inputEl = inputEl;
 
-  // inputEl.addEventListener("input", () => {
-  //   this.widget.callback?.(widget.value);
-  // });
-
-  this.widget = this.addWidget("d-name", "customtext", "", "value");
+  inputEl.addEventListener("input", () => {
+    this.widget.callback?.(this.widget.value);
+  });
 
   this.widgets_up = true;
   this.serialize_widgets = true;
@@ -338,35 +337,16 @@ normalNodeObject.title = "Object";
 
 normalNodeObject.prototype.setValue = function (value) {
   this.setProperty("value", value);
-  // this.widget.element.value = value;
-  // console.log("this", this);
 };
 
 function App() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    const graph = new LiteGraph.LGraph();
-    const canvas = new LiteGraph.LGraphCanvas(canvasRef.current, graph);
-    LiteGraph.LiteGraph.registerNodeType("basic/normal", normalNode);
-    LiteGraph.LiteGraph.registerNodeType(
-      "basic/normalObject",
-      normalNodeObject
-    );
-
-    // const inputEl = document.createElement("textarea");
-    // LiteGraph.LGraphNode.prototype.addCustomWidget({
-    //   type: "d-name",
-    //   name: "customtext",
-    //   get value() {
-    //     return inputEl.value;
-    //   },
-    //   set value(v) {
-    //     inputEl.value = v;
-    //   },
-    //   element: inputEl,
-    //   options: {},
-    // });
+    const graph = new LGraph();
+    const canvas = new LGraphCanvas(canvasRef.current, graph);
+    LiteGraph.registerNodeType("basic/normal", normalNode);
+    LiteGraph.registerNodeType("basic/normalObject", normalNodeObject);
 
     getLayoutedElements(initialNodes, initialEdges, {
       "elk.direction": "RIGHT",
@@ -384,18 +364,15 @@ function App() {
           var sourceConst;
           if (!source.node) {
             if (typeof source?.data?.label === "object") {
-              sourceConst =
-                LiteGraph.LiteGraph.createNode("basic/normalObject");
-              // console.log("sourceConst_label", source?.data?.label);
+              sourceConst = LiteGraph.createNode("basic/normalObject");
               sourceConst.setValue(
                 JSON.stringify(source?.data?.label, null, 2)
               );
             } else {
-              sourceConst = LiteGraph.LiteGraph.createNode("basic/normal");
+              sourceConst = LiteGraph.createNode("basic/normal");
               sourceConst.setValue(source?.data?.label);
             }
             sourceConst.pos = [source.position.x, source.position.y];
-            // sourceConst.setValue(source?.data?.label);
             graph.add(sourceConst);
             source.node = sourceConst;
           } else {
@@ -405,18 +382,15 @@ function App() {
           var targetConst;
           if (!target.node) {
             if (typeof target?.data?.label === "object") {
-              targetConst =
-                LiteGraph.LiteGraph.createNode("basic/normalObject");
-              // console.log("sourceConst_label", target?.data?.label);
+              targetConst = LiteGraph.createNode("basic/normalObject");
               targetConst.setValue(
                 JSON.stringify(target?.data?.label, null, 2)
               );
             } else {
-              targetConst = LiteGraph.LiteGraph.createNode("basic/normal");
+              targetConst = LiteGraph.createNode("basic/normal");
               targetConst.setValue(target?.data?.label);
             }
             targetConst.pos = [target.position.x, target.position.y];
-            // targetConst.setValue(target?.data?.label);
             graph.add(targetConst);
             target.node = targetConst;
           } else {
