@@ -32,6 +32,21 @@ file(GLOB_RECURSE SOURCES
     imnodes/*.cpp
 )
 
+if (EMSCRIPTEN)
+    option(GGWEB_WASM_SINGLE_FILE "Embed WASM inside the generated .js" ON)
+
+    set(CMAKE_CXX_FLAGS " \
+    -s USE_SDL=2 \
+    -s DISABLE_EXCEPTION_CATCHING=1 \
+    ")
+
+    set(CMAKE_EXE_LINKER_FLAGS " \
+    --bind \
+    -s ALLOW_MEMORY_GROWTH=1 \
+    -s NO_EXIT_RUNTIME=0 \
+    ")
+endif()
+
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
     set(PLATFORM "-linux-amd64")
     set(LIBS ${OPENGL_LIBRARIES})
